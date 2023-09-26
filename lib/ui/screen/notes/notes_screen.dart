@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/ui/screen/notes_cubit.dart';
-import 'package:notes/ui/screen/notes_ui_state.dart';
+import 'package:notes/ui/screen/notes/notes_cubit.dart';
+import 'package:notes/ui/screen/notes/notes_ui_state.dart';
 
 class NotesScreen extends StatelessWidget {
   const NotesScreen({super.key});
