@@ -7,6 +7,16 @@ class NotesCubit extends Cubit<NotesUiState> {
   NoteRepository noteRepo = NoteRepositoryImpl();
 
   NotesCubit({required this.noteRepo}) : super(const NotesUiState()) {
-    emit(NotesUiState(notes: noteRepo.getNotes()));
+    noteRepo.getNotes().listen(
+      (notes) {
+        emit(NotesUiState(notes: notes));
+      },
+    );
+  }
+
+  void addNote() {
+    noteRepo.addNote(
+      text: "This is note ${state.notes.length + 1}",
+    );
   }
 }

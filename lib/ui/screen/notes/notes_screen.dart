@@ -19,6 +19,12 @@ class NotesScreen extends StatelessWidget {
               );
             },
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<NotesCubit>().addNote();
+            },
+            child: const Icon(Icons.add),
+          ),
         );
       },
     );
