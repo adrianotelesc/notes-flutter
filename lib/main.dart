@@ -16,10 +16,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Notes',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        brightness: Brightness.light,
         useMaterial3: true,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        useMaterial3: true,
+      ),
+      themeMode: ThemeMode.system,
       home: BlocProvider(
         create: (_) => NotesCubit(noteRepo: NoteRepositoryImpl()),
         child: const NotesScreen(),

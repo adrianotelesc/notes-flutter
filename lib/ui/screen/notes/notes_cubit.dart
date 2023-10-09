@@ -15,8 +15,14 @@ class NotesCubit extends Cubit<NotesUiState> {
   }
 
   void addNote() {
+    final noteCount = state.notes.length + 1;
+    var text = "This is note $noteCount";
+    if (noteCount % 2 == 0) {
+      text =
+          "This is note  $noteCount.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer congue metus accumsan aliquet vestibulum. Sed pellentesque diam tincidunt ligula sollicitudin porttitor.";
+    }
     noteRepo.addNote(
-      text: "This is note ${state.notes.length + 1}",
+      text: text,
     );
   }
 }
