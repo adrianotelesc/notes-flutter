@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/data/repository/note_repository_impl.dart';
-import 'package:notes/ui/screen/notes/notes_cubit.dart';
+import 'package:notes/ui/screen/note_editing/note_editing_screen.dart';
 import 'package:notes/ui/screen/notes/notes_screen.dart';
 
 void main() {
@@ -26,10 +24,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      home: BlocProvider(
-        create: (_) => NotesCubit(noteRepo: NoteRepositoryImpl()),
-        child: const NotesScreen(),
-      ),
+      routes: {
+        '/notes': (_) => const NotesScreen(),
+        '/note-editing': (_) => const NoteEditingScreen(),
+      },
+      home: const NotesScreen(),
     );
   }
 }
