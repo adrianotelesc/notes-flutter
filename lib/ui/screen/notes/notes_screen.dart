@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:notes/data/repository/note_repository_impl.dart';
 import 'package:notes/ui/screen/notes/notes_cubit.dart';
 import 'package:notes/ui/screen/notes/notes_ui_state.dart';
 
@@ -18,7 +17,7 @@ class _NotesScreenState extends State<NotesScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NotesCubit>(
-      create: (_) => NotesCubit(noteRepo: NoteRepositoryImpl()),
+      create: (_) => NotesCubit(),
       child: BlocBuilder<NotesCubit, NotesUiState>(
         builder: (context, state) {
           return Scaffold(
@@ -33,13 +32,18 @@ class _NotesScreenState extends State<NotesScreen> {
               padding: const EdgeInsets.all(12),
               itemCount: state.notes.length,
               itemBuilder: (context, index) {
-                return Card(
-                  elevation: 0,
-                  color: Theme.of(context).colorScheme.surfaceVariant,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      state.notes[index].text,
+                final item = state.notes[index];
+                return GestureDetector(
+                  onTap: () => Navigator.of(context)
+                      .pushNamed("/note-editing", arguments: item.id),
+                  child: Card(
+                    elevation: 0,
+                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        item.text,
+                      ),
                     ),
                   ),
                 );

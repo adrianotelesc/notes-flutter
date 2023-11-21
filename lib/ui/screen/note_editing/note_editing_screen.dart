@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/data/repository/note_repository_impl.dart';
 import 'package:notes/ui/screen/note_editing/note_editing_cubit.dart';
 import 'package:notes/ui/screen/note_editing/note_editing_ui_state.dart';
 
@@ -29,9 +28,12 @@ class _NoteEditingScreenState extends State<NoteEditingScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NoteEditingCubit>(
-      create: (_) => NoteEditingCubit(noteRepo: NoteRepositoryImpl()),
+      create: (_) => NoteEditingCubit(
+        noteId: ModalRoute.of(context)?.settings.arguments as String?,
+      ),
       child: BlocBuilder<NoteEditingCubit, NoteEditingUiState>(
         builder: (context, state) {
+          _textEditingController.text = state.note.text;
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
@@ -50,6 +52,8 @@ class _NoteEditingScreenState extends State<NoteEditingScreen> {
                 controller: _textEditingController,
                 maxLines: null,
                 autofocus: true,
+                onChanged: (text) =>
+                    context.read<NoteEditingCubit>().updateNote(text),
                 keyboardType: TextInputType.multiline,
                 decoration: const InputDecoration(
                   border: InputBorder.none,

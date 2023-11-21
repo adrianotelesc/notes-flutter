@@ -1,5 +1,6 @@
 class Note {
+  final String id;
   final String text;
 
-  Note({required this.text});
+  Note({this.id = '', this.text = ''});
 }

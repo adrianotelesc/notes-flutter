@@ -1,7 +1,7 @@
 import 'package:notes/data/model/note.dart';
 
 class NoteEditingUiState {
-  final Note? note;
+  final Note note;
 
-  const NoteEditingUiState({this.note});
+  NoteEditingUiState({required this.note});
 }

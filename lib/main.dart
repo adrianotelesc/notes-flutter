@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:notes/data/repository/note_repository.dart';
+import 'package:notes/data/repository/note_repository_impl.dart';
 import 'package:notes/ui/screen/note_editing/note_editing_screen.dart';
 import 'package:notes/ui/screen/notes/notes_screen.dart';
 
+final getIt = GetIt.instance;
+
 void main() {
+  setup();
   runApp(const MyApp());
+}
+
+void setup() {
+  getIt.registerSingleton<NoteRepository>(NoteRepositoryImpl());
 }
 
 class MyApp extends StatelessWidget {
