@@ -35,6 +35,7 @@ class _NotesScreenState extends State<NotesScreen> {
                   elevation: 0,
                   color: Theme.of(context).colorScheme.surfaceVariant,
                   child: InkWell(
+                    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         "/note-editing",
