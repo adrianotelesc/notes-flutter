@@ -14,16 +14,14 @@ class NoteEditingCubit extends Cubit<NoteEditingUiState> {
   }
 
   void loadNoteIfIdIsNotNull(String? noteId) {
-    if (noteId != null) {
-      final note = noteRepo.findBy(id: noteId);
-      if (note != null) {
-        emit(NoteEditingUiState(note: note));
-      }
-    }
+    if (noteId == null) return;
+    final note = noteRepo.findById(noteId);
+    if (note == null) return;
+    emit(NoteEditingUiState(note: note));
   }
 
   void updateNote(String text) {
     final note = Note(id: state.note.id, text: text);
-    noteRepo.update(note: note);
+    noteRepo.update(note);
   }
 }

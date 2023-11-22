@@ -3,13 +3,13 @@ import 'package:notes/data/model/note.dart';
 abstract class NoteRepository {
   Stream<List<Note>> getNotes();
 
-  bool add({required Note note});
+  Note? findById(String id);
 
-  bool update({required Note note});
+  void update(Note note);
 
-  Note? findBy({required String id});
+  void add(Note note, {int index = 0});
 
-  bool delete({required Note note});
+  void remove(Note note);
 
-  bool replace({required Note oldNote, required Note newNote});
+  void replace(Note oldNote, Note newNote);
 }

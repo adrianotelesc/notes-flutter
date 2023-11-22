@@ -5,52 +5,47 @@ import 'package:notes/data/repository/note_repository.dart';
 
 class NoteRepositoryImpl extends NoteRepository {
   final List<Note> notes = [];
-  final _notes = StreamController<List<Note>>();
+  final _streamController = StreamController<List<Note>>();
 
   @override
-  Stream<List<Note>> getNotes() => _notes.stream;
+  Stream<List<Note>> getNotes() => _streamController.stream;
 
   @override
-  bool add({required Note note}) {
-    notes.insert(0, note);
-    _notes.add(notes);
-    return true;
+  Note? findById(String id) =>
+      notes.where((element) => element.id == id).firstOrNull;
+
+  @override
+  void add(Note note, {int index = 0}) {
+    if (note.text.isEmpty) return;
+    notes.insert(index, note);
+    _streamController.add(notes);
   }
 
   @override
-  bool delete({required Note note}) {
-    final isSuccess = notes.remove(note);
-    _notes.add(notes);
-    return isSuccess;
+  void remove(Note note) {
+    notes.remove(note);
+    _streamController.add(notes);
   }
 
   @override
-  Note? findBy({required String id}) {
-    return notes.where((element) => element.id == id).firstOrNull;
-  }
-
-  @override
-  bool replace({required Note oldNote, required Note newNote}) {
+  void replace(Note oldNote, Note newNote) {
     final index = notes.indexOf(oldNote);
-    delete(note: oldNote);
-    notes.insert(index, newNote);
-    _notes.add(notes);
-    return true;
+    remove(oldNote);
+    add(newNote, index: index);
+    _streamController.add(notes);
   }
 
   @override
-  bool update({required Note note}) {
-    final oldNote = findBy(id: note.id);
-    if (oldNote == null && note.text.isNotEmpty) {
-      return add(note: note);
-    } else if (oldNote != null &&
-        oldNote.text.isNotEmpty &&
-        note.text.isEmpty) {
-      return delete(note: oldNote);
-    } else if (oldNote != null && oldNote != note) {
-      return replace(oldNote: oldNote, newNote: note);
+  void update(Note note) {
+    final oldNote = findById(note.id);
+    if (oldNote == null) {
+      add(note);
+    } else {
+      if (oldNote.text.isNotEmpty && note.text.isEmpty) {
+        remove(oldNote);
+      } else if (oldNote != note) {
+        replace(oldNote, note);
+      }
     }
-
-    return false;
   }
 }
