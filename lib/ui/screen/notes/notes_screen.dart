@@ -21,9 +21,7 @@ class _NotesScreenState extends State<NotesScreen> {
       child: BlocBuilder<NotesCubit, NotesUiState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-              title: const Text("Notes"),
-            ),
+            appBar: AppBar(title: const Text("Notes")),
             body: MasonryGridView.builder(
               gridDelegate:
                   const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -33,16 +31,22 @@ class _NotesScreenState extends State<NotesScreen> {
               itemCount: state.notes.length,
               itemBuilder: (context, index) {
                 final item = state.notes[index];
-                return GestureDetector(
-                  onTap: () => Navigator.of(context)
-                      .pushNamed("/note-editing", arguments: item.id),
-                  child: Card(
-                    elevation: 0,
-                    color: Theme.of(context).colorScheme.surfaceVariant,
+                return Card(
+                  elevation: 0,
+                  color: Theme.of(context).colorScheme.surfaceVariant,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        "/note-editing",
+                        arguments: item.id,
+                      );
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Text(
                         item.text,
+                        maxLines: 10,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
