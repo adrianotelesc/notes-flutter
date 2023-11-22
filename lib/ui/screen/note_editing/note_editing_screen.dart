@@ -51,7 +51,7 @@ class _NoteEditingScreenState extends State<NoteEditingScreen> {
                 scrollPadding: const EdgeInsets.all(0),
                 controller: _textEditingController,
                 maxLines: null,
-                autofocus: true,
+                autofocus: state.note.text.isEmpty,
                 onChanged: (text) =>
                     context.read<NoteEditingCubit>().updateNote(text),
                 keyboardType: TextInputType.multiline,
