@@ -16,7 +16,7 @@ class NoteRepositoryImpl extends NoteRepository {
 
   @override
   void add(Note note, {int index = 0}) {
-    if (note.text.isEmpty) return;
+    if (note.isEmpty) return;
     notes.insert(index, note);
     _streamController.add(notes);
   }
@@ -41,7 +41,7 @@ class NoteRepositoryImpl extends NoteRepository {
     if (oldNote == null) {
       add(note);
     } else {
-      if (oldNote.text.isNotEmpty && note.text.isEmpty) {
+      if (oldNote.isNotEmpty && note.isEmpty) {
         remove(oldNote);
       } else if (oldNote != note) {
         replace(oldNote, note);

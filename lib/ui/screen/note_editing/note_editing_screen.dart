@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/data/repository/note_repository.dart';
+import 'package:notes/main.dart';
 import 'package:notes/ui/screen/note_editing/note_editing_cubit.dart';
 import 'package:notes/ui/screen/note_editing/note_editing_ui_state.dart';
 
@@ -30,6 +32,7 @@ class _NoteEditingScreenState extends State<NoteEditingScreen> {
     return BlocProvider<NoteEditingCubit>(
       create: (_) => NoteEditingCubit(
         noteId: ModalRoute.of(context)?.settings.arguments as String?,
+        noteRepo: getIt.get<NoteRepository>(),
       ),
       child: BlocBuilder<NoteEditingCubit, NoteEditingUiState>(
         builder: (context, state) {
