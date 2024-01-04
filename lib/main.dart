@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:notes/data/repository/note_repository.dart';
 import 'package:notes/data/repository/note_repository_impl.dart';
-import 'package:notes/ui/screen/note_editing/note_editing_screen.dart';
-import 'package:notes/ui/screen/notes/notes_screen.dart';
+import 'package:notes/ui/page/note_editor/note_editor_page.dart';
+import 'package:notes/ui/page/notes/notes_page.dart';
 
 final getIt = GetIt.instance;
 
@@ -35,10 +35,10 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.system,
       routes: {
-        '/notes': (_) => const NotesScreen(),
-        '/note-editing': (_) => const NoteEditingScreen(),
+        '/notes': (_) => const NotesPage(),
+        '/note-editor': (_) => const NoteEditorPage(),
       },
-      home: const NotesScreen(),
+      home: const NotesPage(),
     );
   }
 }

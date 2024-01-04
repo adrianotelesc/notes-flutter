@@ -1,7 +1,7 @@
 import 'package:notes/data/model/note.dart';
 
-class NotesUiState {
+class NotesState {
   final List<Note> notes;
 
-  const NotesUiState({this.notes = const <Note>[]});
+  const NotesState({this.notes = const <Note>[]});
 }

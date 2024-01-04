@@ -1,15 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/data/model/note.dart';
 import 'package:notes/data/repository/note_repository.dart';
-import 'package:notes/ui/screen/note_editing/note_editing_ui_state.dart';
+import 'package:notes/ui/page/note_editor/note_editor_state.dart';
 
-class NoteEditingCubit extends Cubit<NoteEditingUiState> {
+class NoteEditorCubit extends Cubit<NoteEditorState> {
   NoteRepository noteRepo;
 
-  NoteEditingCubit({
+  NoteEditorCubit({
     required String? noteId,
     required this.noteRepo,
-  }) : super(NoteEditingUiState(note: Note())) {
+  }) : super(NoteEditorState(note: Note())) {
     emitStateWithNoteBy(id: noteId);
   }
 
@@ -18,7 +18,7 @@ class NoteEditingCubit extends Cubit<NoteEditingUiState> {
     final note = noteRepo.findById(id);
 
     if (note == null) return;
-    emit(NoteEditingUiState(note: note));
+    emit(NoteEditorState(note: note));
   }
 
   void updateNote(String text) {

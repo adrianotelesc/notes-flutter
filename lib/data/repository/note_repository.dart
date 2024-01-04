@@ -1,7 +1,7 @@
 import 'package:notes/data/model/note.dart';
 
 abstract class NoteRepository {
-  Stream<List<Note>> getNotes();
+  Stream<List<Note>> get notes;
 
   Note? findById(String id);
 

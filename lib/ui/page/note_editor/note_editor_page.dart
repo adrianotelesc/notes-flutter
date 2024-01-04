@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/data/repository/note_repository.dart';
 import 'package:notes/main.dart';
-import 'package:notes/ui/screen/note_editing/note_editing_cubit.dart';
-import 'package:notes/ui/screen/note_editing/note_editing_ui_state.dart';
+import 'package:notes/ui/page/note_editor/note_editor_cubit.dart';
+import 'package:notes/ui/page/note_editor/note_editor_state.dart';
 
-class NoteEditingScreen extends StatefulWidget {
-  const NoteEditingScreen({super.key});
+class NoteEditorPage extends StatefulWidget {
+  const NoteEditorPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _NoteEditingScreenState();
+  State<StatefulWidget> createState() => _NoteEditorPageState();
 }
 
-class _NoteEditingScreenState extends State<NoteEditingScreen> {
+class _NoteEditorPageState extends State<NoteEditorPage> {
   late final TextEditingController _textEditingController;
 
   @override
@@ -29,12 +29,12 @@ class _NoteEditingScreenState extends State<NoteEditingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<NoteEditingCubit>(
-      create: (_) => NoteEditingCubit(
+    return BlocProvider<NoteEditorCubit>(
+      create: (_) => NoteEditorCubit(
         noteId: ModalRoute.of(context)?.settings.arguments as String?,
         noteRepo: getIt.get<NoteRepository>(),
       ),
-      child: BlocBuilder<NoteEditingCubit, NoteEditingUiState>(
+      child: BlocBuilder<NoteEditorCubit, NoteEditorState>(
         builder: (context, state) {
           _textEditingController.text = state.note.text;
           return Scaffold(
@@ -56,7 +56,7 @@ class _NoteEditingScreenState extends State<NoteEditingScreen> {
                 maxLines: null,
                 autofocus: state.note.text.isEmpty,
                 onChanged: (text) =>
-                    context.read<NoteEditingCubit>().updateNote(text),
+                    context.read<NoteEditorCubit>().updateNote(text),
                 keyboardType: TextInputType.multiline,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
