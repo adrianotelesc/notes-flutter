@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:notes/ui/page/notes/notes_cubit.dart';
-import 'package:notes/ui/page/notes/notes_state.dart';
-import 'package:notes/ui/widget/sticky_note.dart';
+import 'package:postnote/ui/page/notes/notes_cubit.dart';
+import 'package:postnote/ui/page/notes/notes_state.dart';
+import 'package:postnote/ui/widget/sticky_note.dart';
 
 class NotesPage extends StatelessWidget {
   const NotesPage({super.key});
@@ -15,7 +15,7 @@ class NotesPage extends StatelessWidget {
       child: BlocBuilder<NotesCubit, NotesState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(title: const Text("Notes")),
+            appBar: AppBar(title: const Text("Postnote")),
             body: MasonryGridView.builder(
               gridDelegate:
                   const SliverSimpleGridDelegateWithFixedCrossAxisCount(

@@ -1,4 +1,4 @@
-import 'package:notes/data/model/note.dart';
+import 'package:postnote/data/model/note.dart';
 
 abstract class NoteRepository {
   Stream<List<Note>> get notes;

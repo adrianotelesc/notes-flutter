@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/data/repository/note_repository.dart';
-import 'package:notes/main.dart';
-import 'package:notes/ui/page/note_editor/note_editor_cubit.dart';
-import 'package:notes/ui/page/note_editor/note_editor_state.dart';
+import 'package:postnote/data/repository/note_repository.dart';
+import 'package:postnote/main.dart';
+import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
+import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
 
 class NoteEditorPage extends StatefulWidget {
   const NoteEditorPage({super.key});

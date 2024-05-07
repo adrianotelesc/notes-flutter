@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/data/model/note.dart';
-import 'package:notes/data/repository/note_repository.dart';
-import 'package:notes/ui/page/note_editor/note_editor_state.dart';
+import 'package:postnote/data/model/note.dart';
+import 'package:postnote/data/repository/note_repository.dart';
+import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
 
 class NoteEditorCubit extends Cubit<NoteEditorState> {
   NoteRepository noteRepo;
