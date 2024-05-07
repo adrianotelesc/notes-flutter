@@ -28,7 +28,7 @@ class NotesPage extends StatelessWidget {
                 return StickyNote(
                   id: note.id,
                   text: note.text,
-                  onClick: (id) {
+                  onTap: (id) {
                     Navigator.of(context).pushNamed(
                       "/note-editor",
                       arguments: id,

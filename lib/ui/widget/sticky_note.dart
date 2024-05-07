@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class StickyNote extends StatelessWidget {
   final String id;
   final String text;
-  final Function(String)? onClick;
+  final Function(String)? onTap;
 
   const StickyNote({
     super.key,
     required this.id,
     required this.text,
-    this.onClick,
+    this.onTap,
   });
 
   @override
@@ -20,7 +20,7 @@ class StickyNote extends StatelessWidget {
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         onTap: () {
-          onClick?.call(id);
+          onTap?.call(id);
         },
         child: Padding(
           padding: const EdgeInsets.all(16),
