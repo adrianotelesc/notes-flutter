@@ -6,10 +6,21 @@ import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_state.dart';
 import 'package:postnote/ui/widget/sticky_note.dart';
 
-class NotesPage extends StatelessWidget {
-  NotesPage({super.key});
+class NotesPage extends StatefulWidget {
+  const NotesPage({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _NotesPageState();
+}
+
+class _NotesPageState extends State<NotesPage> {
   final _cubit = GetIt.instance.get<NotesCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

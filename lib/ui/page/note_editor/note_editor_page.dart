@@ -5,7 +5,9 @@ import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
 
 class NoteEditorPage extends StatefulWidget {
-  const NoteEditorPage({super.key});
+  final String? noteId;
+
+  const NoteEditorPage({super.key, this.noteId});
 
   @override
   State<StatefulWidget> createState() => _NoteEditorPageState();
@@ -14,14 +16,14 @@ class NoteEditorPage extends StatefulWidget {
 class _NoteEditorPageState extends State<NoteEditorPage> {
   late TextEditingController _textEditingController;
 
-  late final _cubit = GetIt.instance.get<NoteEditorCubit>(
-    param1: ModalRoute.of(context)?.settings.arguments as String?,
-  );
+  final _cubit = GetIt.instance.get<NoteEditorCubit>();
 
   @override
   void initState() {
     super.initState();
-    _textEditingController = TextEditingController();
+    _cubit.initState(noteId: widget.noteId);
+    _textEditingController =
+        TextEditingController(text: _cubit.state.note.text);
   }
 
   @override
@@ -35,7 +37,6 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
     return BlocBuilder<NoteEditorCubit, NoteEditorState>(
       bloc: _cubit,
       builder: (context, state) {
-        _textEditingController.text = state.note.text;
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(

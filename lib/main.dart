@@ -16,9 +16,7 @@ void setUpDependencies() {
   final getIt = GetIt.instance;
   getIt.registerSingleton<NoteRepository>(NoteRepositoryImpl());
   getIt.registerFactory(() => NotesCubit());
-  getIt.registerFactoryParam<NoteEditorCubit, String?, void>((noteId, _) {
-    return NoteEditorCubit(noteId: noteId);
-  });
+  getIt.registerFactory(() => NoteEditorCubit());
 }
 
 class PostnoteApp extends StatelessWidget {
@@ -38,11 +36,18 @@ class PostnoteApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      routes: {
-        '/notes': (_) => NotesPage(),
-        '/note-editor': (_) => const NoteEditorPage(),
+      onGenerateRoute: (settings) {
+        defaultRouteBuilder(_) => const NotesPage();
+
+        final routes = <String, WidgetBuilder>{
+          "/": defaultRouteBuilder,
+          "/note-editor": (_) =>
+              NoteEditorPage(noteId: settings.arguments as String?),
+        };
+        WidgetBuilder builder = routes[settings.name] ?? defaultRouteBuilder;
+        return MaterialPageRoute(builder: (ctx) => builder(ctx));
       },
-      home: NotesPage(),
+      home: const NotesPage(),
     );
   }
 }

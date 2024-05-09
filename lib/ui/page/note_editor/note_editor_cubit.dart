@@ -7,12 +7,13 @@ import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
 class NoteEditorCubit extends Cubit<NoteEditorState> {
   final _noteRepo = GetIt.instance.get<NoteRepository>();
 
-  NoteEditorCubit({required String? noteId})
-      : super(NoteEditorState(note: Note())) {
-    _findNoteAndEmitState(noteId: noteId);
+  NoteEditorCubit() : super(NoteEditorState(note: Note()));
+
+  void initState({String? noteId}) {
+    _findNote(noteId: noteId);
   }
 
-  void _findNoteAndEmitState({required String? noteId}) {
+  void _findNote({required String? noteId}) {
     if (noteId == null) return;
     final note = _noteRepo.findById(noteId);
     emit(state.copyWith(note: note));
@@ -21,5 +22,6 @@ class NoteEditorCubit extends Cubit<NoteEditorState> {
   void updateNote(String text) {
     final note = state.note.copyWith(text: text);
     _noteRepo.update(note);
+    emit(state.copyWith(note: note));
   }
 }
