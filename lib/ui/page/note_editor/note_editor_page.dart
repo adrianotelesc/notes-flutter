@@ -48,16 +48,19 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
               left: 16,
               right: 16,
             ),
-            child: TextField(
-              clipBehavior: Clip.none,
-              scrollPadding: const EdgeInsets.all(0),
-              controller: _textEditingController,
-              maxLines: null,
-              autofocus: state.note.text.isEmpty,
-              onChanged: (text) => _cubit.updateNote(text),
-              keyboardType: TextInputType.multiline,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
+            child: Expanded(
+              child: TextField(
+                expands: true,
+                clipBehavior: Clip.none,
+                scrollPadding: const EdgeInsets.all(0),
+                controller: _textEditingController,
+                maxLines: null,
+                autofocus: state.note.text.isEmpty,
+                onChanged: (text) => _cubit.updateNote(text),
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
               ),
             ),
           ),
