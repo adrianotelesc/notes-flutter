@@ -1,49 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get_it/get_it.dart';
 import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_state.dart';
 import 'package:postnote/ui/widget/sticky_note.dart';
 
 class NotesPage extends StatelessWidget {
-  const NotesPage({super.key});
+  NotesPage({super.key});
+
+  final _cubit = GetIt.instance.get<NotesCubit>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<NotesCubit>(
-      create: (_) => NotesCubit(),
-      child: BlocBuilder<NotesCubit, NotesState>(
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(title: const Text("Postnote")),
-            body: MasonryGridView.builder(
-              gridDelegate:
-                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
-              padding: const EdgeInsets.all(12),
-              itemCount: state.notes.length,
-              itemBuilder: (context, index) {
-                final note = state.notes[index];
-                return StickyNote(
-                  id: note.id,
-                  text: note.text,
-                  onTap: (id) {
-                    Navigator.of(context).pushNamed(
-                      "/note-editor",
-                      arguments: id,
-                    );
-                  },
-                );
-              },
+    return BlocBuilder<NotesCubit, NotesState>(
+      bloc: _cubit,
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('Postnote')),
+          body: MasonryGridView.builder(
+            gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => Navigator.of(context).pushNamed("/note-editor"),
-              child: const Icon(Icons.add),
-            ),
-          );
-        },
-      ),
+            padding: const EdgeInsets.all(12),
+            itemCount: state.notes.length,
+            itemBuilder: (context, index) {
+              final note = state.notes[index];
+              return StickyNote(
+                id: note.id,
+                text: note.text,
+                onTap: (id) => Navigator.of(context)
+                    .pushNamed('/note-editor', arguments: id),
+              );
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => Navigator.of(context).pushNamed('/note-editor'),
+            child: const Icon(Icons.add),
+          ),
+        );
+      },
     );
   }
 }

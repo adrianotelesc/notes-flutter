@@ -2,24 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:postnote/data/repository/note_repository.dart';
 import 'package:postnote/data/repository/note_repository_impl.dart';
+import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_page.dart';
+import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_page.dart';
 
-final getIt = GetIt.instance;
-
 void main() {
-  setup();
+  setUpDependencies();
   runApp(const PostnoteApp());
 }
 
-void setup() {
+void setUpDependencies() {
+  final getIt = GetIt.instance;
   getIt.registerSingleton<NoteRepository>(NoteRepositoryImpl());
+  getIt.registerFactory(() => NotesCubit());
+  getIt.registerFactoryParam<NoteEditorCubit, String?, void>((noteId, _) {
+    return NoteEditorCubit(noteId: noteId);
+  });
 }
 
 class PostnoteApp extends StatelessWidget {
   const PostnoteApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,10 +39,10 @@ class PostnoteApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.system,
       routes: {
-        '/notes': (_) => const NotesPage(),
+        '/notes': (_) => NotesPage(),
         '/note-editor': (_) => const NoteEditorPage(),
       },
-      home: const NotesPage(),
+      home: NotesPage(),
     );
   }
 }

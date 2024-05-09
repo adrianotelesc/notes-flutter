@@ -1,14 +1,13 @@
 import 'dart:async';
-
 import 'package:postnote/data/model/note.dart';
 import 'package:postnote/data/repository/note_repository.dart';
 
 class NoteRepositoryImpl extends NoteRepository {
   final List<Note> _notes = [];
-  final _notesStreamController = StreamController<List<Note>>();
+  final _notesStreamController = StreamController<List<Note>>.broadcast();
 
   @override
-  Stream<List<Note>> get notes => _notesStreamController.stream;
+  Stream<List<Note>> get notesStream => _notesStreamController.stream;
 
   @override
   Note? findById(String id) =>
@@ -45,7 +44,7 @@ class NoteRepositoryImpl extends NoteRepository {
   void replace(Note oldNote, Note newNote) {
     final index = _notes.indexOf(oldNote);
     _notes.removeAt(index);
-    _notes.add(newNote);
+    _notes.insert(index, newNote);
     _notesStreamController.add(_notes);
   }
 }

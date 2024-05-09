@@ -1,7 +1,7 @@
 import 'package:postnote/data/model/note.dart';
 
 abstract class NoteRepository {
-  Stream<List<Note>> get notes;
+  Stream<List<Note>> get notesStream;
 
   Note? findById(String id);
 
