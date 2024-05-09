@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:postnote/ui/util/string_extension.dart';
 
 class StickyNote extends StatelessWidget {
   final String id;
@@ -25,7 +26,7 @@ class StickyNote extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            text,
+            text.truncateWithEllipsis(maxLines: 10),
             maxLines: 10,
             overflow: TextOverflow.ellipsis,
           ),
