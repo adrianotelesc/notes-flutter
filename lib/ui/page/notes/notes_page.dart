@@ -31,8 +31,8 @@ class _NotesPageState extends State<NotesPage> {
         return Scaffold(
           appBar: AppBar(title: const Text('Postnote')),
           body: MasonryGridView.builder(
-            gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+            gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: MediaQuery.of(context).size.width ~/ 200,
             ),
             padding: const EdgeInsets.all(12),
             itemCount: state.notes.length,
