@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
 
@@ -35,45 +34,37 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NoteEditorCubit, NoteEditorState>(
-      bloc: _cubit,
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                if (context.canPop()) {
-                  context.pop();
-                } else {
-                  context.go('/notes');
-                }
-              },
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
-            child: Expanded(
-              child: TextField(
-                expands: true,
-                clipBehavior: Clip.none,
-                scrollPadding: const EdgeInsets.all(0),
-                controller: _textEditingController,
-                maxLines: null,
-                autofocus: state.note.text.isEmpty,
-                onChanged: (text) => _cubit.updateNote(text),
-                keyboardType: TextInputType.multiline,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
+    return Container(
+      width: MediaQuery.of(context).size.width > 1000
+          ? MediaQuery.of(context).size.width / 2
+          : null,
+      height: MediaQuery.of(context).size.height / 1.5,
+      padding: const EdgeInsets.all(24),
+      child: BlocBuilder<NoteEditorCubit, NoteEditorState>(
+        bloc: _cubit,
+        builder: (context, state) {
+          return Flex(
+            direction: Axis.vertical,
+            children: [
+              Expanded(
+                child: TextField(
+                  expands: true,
+                  clipBehavior: Clip.none,
+                  scrollPadding: const EdgeInsets.all(0),
+                  controller: _textEditingController,
+                  maxLines: null,
+                  autofocus: state.note.text.isEmpty,
+                  onChanged: (text) => _cubit.updateNote(text),
+                  keyboardType: TextInputType.multiline,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
-            ),
-          ),
-        );
-      },
+            ],
+          );
+        },
+      ),
     );
   }
 }

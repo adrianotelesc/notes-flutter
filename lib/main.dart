@@ -45,22 +45,34 @@ class PostnoteApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.system,
       routerConfig: GoRouter(
-        initialLocation: '/notes',
         navigatorKey: _navigationKey,
+        initialLocation: '/notes',
         routes: [
           GoRoute(
             path: '/notes',
             builder: (context, state) => const NotesPage(),
-          ),
-          GoRoute(
-            path: '/notes/new',
-            builder: (context, state) => const NoteEditorPage(),
-          ),
-          GoRoute(
-            path: '/notes/:id',
-            builder: (context, state) => NoteEditorPage(
-              noteId: state.pathParameters['id'] ?? '',
-            ),
+            routes: [
+              GoRoute(
+                path: 'new',
+                pageBuilder: (context, state) {
+                  return DialogPage(
+                    builder: (_) => const NoteEditorPage(),
+                  );
+                },
+              ),
+              GoRoute(
+                path: ':id',
+                pageBuilder: (context, state) {
+                  return DialogPage(
+                    builder: (_) {
+                      return NoteEditorPage(
+                        noteId: state.pathParameters['id'] ?? '',
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
