@@ -1,4 +1,6 @@
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:postnote/web_stub_plugins.dart'
+    if (dart.html) 'package:postnote/web_plugins.dart'
+    if (dart.library.io) 'package:postnote/web_stub_plugins.dart' as plugins;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -8,10 +10,10 @@ import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_page.dart';
 import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_page.dart';
+import 'package:postnote/ui/util/dialog_page.dart';
 
 void main() {
-  usePathUrlStrategy();
-  GoRouter.optionURLReflectsImperativeAPIs = true;
+  plugins.setUpPlugins();
   setUpDependencies();
   runApp(PostnoteApp());
 }
