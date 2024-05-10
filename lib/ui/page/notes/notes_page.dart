@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -32,7 +34,7 @@ class _NotesPageState extends State<NotesPage> {
           appBar: AppBar(title: const Text('Postnote')),
           body: MasonryGridView.builder(
             gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: MediaQuery.of(context).size.width ~/ 200,
+              crossAxisCount: max(2, MediaQuery.of(context).size.width ~/ 200),
             ),
             padding: const EdgeInsets.all(12),
             itemCount: state.notes.length,
