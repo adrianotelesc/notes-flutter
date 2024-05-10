@@ -1,5 +1,7 @@
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:postnote/data/repository/note_repository.dart';
 import 'package:postnote/data/repository/note_repository_impl.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
@@ -8,8 +10,10 @@ import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_page.dart';
 
 void main() {
+  usePathUrlStrategy();
+  GoRouter.optionURLReflectsImperativeAPIs = true;
   setUpDependencies();
-  runApp(const PostnoteApp());
+  runApp(PostnoteApp());
 }
 
 void setUpDependencies() {
@@ -20,11 +24,13 @@ void setUpDependencies() {
 }
 
 class PostnoteApp extends StatelessWidget {
-  const PostnoteApp({super.key});
+  PostnoteApp({super.key});
+
+  final _navigationKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Postnote',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -36,18 +42,26 @@ class PostnoteApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      onGenerateRoute: (settings) {
-        defaultRouteBuilder(_) => const NotesPage();
-
-        final routes = <String, WidgetBuilder>{
-          "/": defaultRouteBuilder,
-          "/note-editor": (_) =>
-              NoteEditorPage(noteId: settings.arguments as String?),
-        };
-        WidgetBuilder builder = routes[settings.name] ?? defaultRouteBuilder;
-        return MaterialPageRoute(builder: (ctx) => builder(ctx));
-      },
-      home: const NotesPage(),
+      routerConfig: GoRouter(
+        initialLocation: '/notes',
+        navigatorKey: _navigationKey,
+        routes: [
+          GoRoute(
+            path: '/notes',
+            builder: (context, state) => const NotesPage(),
+          ),
+          GoRoute(
+            path: '/notes/new',
+            builder: (context, state) => const NoteEditorPage(),
+          ),
+          GoRoute(
+            path: '/notes/:id',
+            builder: (context, state) => NoteEditorPage(
+              noteId: state.pathParameters['id'] ?? '',
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

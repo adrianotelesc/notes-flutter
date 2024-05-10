@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
 
@@ -41,7 +42,13 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go('/notes');
+                }
+              },
             ),
           ),
           body: Padding(

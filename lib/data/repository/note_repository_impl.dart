@@ -6,6 +6,10 @@ class NoteRepositoryImpl extends NoteRepository {
   final List<Note> _notes = [];
   final _notesStreamController = StreamController<List<Note>>.broadcast();
 
+  NoteRepositoryImpl() {
+    _notesStreamController.onListen = () => _notesStreamController.add(_notes);
+  }
+
   @override
   Stream<List<Note>> get notesStream => _notesStreamController.stream;
 

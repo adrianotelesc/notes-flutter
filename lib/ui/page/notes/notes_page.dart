@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_state.dart';
 import 'package:postnote/ui/widget/sticky_note.dart';
@@ -38,15 +39,13 @@ class _NotesPageState extends State<NotesPage> {
             itemBuilder: (context, index) {
               final note = state.notes[index];
               return StickyNote(
-                id: note.id,
-                text: note.text,
-                onTap: (id) => Navigator.of(context)
-                    .pushNamed('/note-editor', arguments: id),
-              );
+                  id: note.id,
+                  text: note.text,
+                  onTap: (id) => context.push('/notes/$id'));
             },
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () => Navigator.of(context).pushNamed('/note-editor'),
+            onPressed: () => context.push('/notes/new'),
             child: const Icon(Icons.add),
           ),
         );
