@@ -4,16 +4,75 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
 
-class NoteEditorPage extends StatefulWidget {
+class NoteEditorPage<T> extends Page<T> {
   final String? noteId;
 
   const NoteEditorPage({super.key, this.noteId});
 
   @override
-  State<StatefulWidget> createState() => _NoteEditorPageState();
+  Route<T> createRoute(BuildContext context) {
+    final shouldCreateDialogRoute = _shouldCreateDialogRoute(context);
+    if (shouldCreateDialogRoute) {
+      return _createDialogRoute(context);
+    } else {
+      return _createPageRoute(context);
+    }
+  }
+
+  bool _shouldCreateDialogRoute(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    return screenWidth > 430 && screenHeight > 540;
+  }
+
+  DialogRoute<T> _createDialogRoute(BuildContext context) {
+    return DialogRoute<T>(
+      context: context,
+      settings: this,
+      barrierColor: Colors.black54,
+      builder: (context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.fromLTRB(24, 160, 24, 24),
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            width: 600,
+            height: 182,
+            child: _NoteEditor(
+              key: super.key,
+              noteId: noteId,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  MaterialPageRoute<T> _createPageRoute(BuildContext context) {
+    return MaterialPageRoute<T>(
+      settings: this,
+      builder: (context) {
+        return Scaffold(
+          appBar: AppBar(),
+          body: _NoteEditor(
+            key: super.key,
+            noteId: noteId,
+          ),
+        );
+      },
+    );
+  }
 }
 
-class _NoteEditorPageState extends State<NoteEditorPage> {
+class _NoteEditor extends StatefulWidget {
+  final String? noteId;
+
+  const _NoteEditor({super.key, this.noteId});
+
+  @override
+  State<StatefulWidget> createState() => _NoteEditorState();
+}
+
+class _NoteEditorState extends State<_NoteEditor> {
   late TextEditingController _textEditingController;
 
   final _cubit = GetIt.instance.get<NoteEditorCubit>();
@@ -34,19 +93,15 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width > 1000
-          ? MediaQuery.of(context).size.width / 2
-          : null,
-      height: MediaQuery.of(context).size.height / 1.5,
-      padding: const EdgeInsets.all(24),
-      child: BlocBuilder<NoteEditorCubit, NoteEditorState>(
-        bloc: _cubit,
-        builder: (context, state) {
-          return Flex(
-            direction: Axis.vertical,
-            children: [
-              Expanded(
+    return BlocBuilder<NoteEditorCubit, NoteEditorState>(
+      bloc: _cubit,
+      builder: (context, state) {
+        return Flex(
+          direction: Axis.vertical,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
                 child: TextField(
                   expands: true,
                   clipBehavior: Clip.none,
@@ -61,10 +116,10 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                   ),
                 ),
               ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

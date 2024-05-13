@@ -10,7 +10,6 @@ import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
 import 'package:postnote/ui/page/note_editor/note_editor_page.dart';
 import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_page.dart';
-import 'package:postnote/ui/util/dialog_page.dart';
 
 void main() {
   plugins.setUpPlugins();
@@ -53,22 +52,11 @@ class PostnoteApp extends StatelessWidget {
             builder: (context, state) => const NotesPage(),
             routes: [
               GoRoute(
-                path: 'new',
-                pageBuilder: (context, state) {
-                  return DialogPage(
-                    builder: (_) => const NoteEditorPage(),
-                  );
-                },
-              ),
-              GoRoute(
                 path: ':id',
                 pageBuilder: (context, state) {
-                  return DialogPage(
-                    builder: (_) {
-                      return NoteEditorPage(
-                        noteId: state.pathParameters['id'] ?? '',
-                      );
-                    },
+                  return NoteEditorPage(
+                    key: state.pageKey,
+                    noteId: state.pathParameters['id'] ?? '',
                   );
                 },
               ),
