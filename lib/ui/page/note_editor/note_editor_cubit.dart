@@ -9,19 +9,20 @@ class NoteEditorCubit extends Cubit<NoteEditorState> {
 
   NoteEditorCubit() : super(NoteEditorState(note: Note()));
 
-  void initState({String? noteId}) {
-    _findNote(noteId: noteId);
+  void initState({required String topic, String? noteId}) {
+    _findNote(topic: topic, noteId: noteId);
   }
 
-  void _findNote({required String? noteId}) {
+  void _findNote({required String topic, required String? noteId}) {
     if (noteId == null) return;
-    final note = _noteRepo.findById(noteId);
-    emit(state.copyWith(note: note));
+    final note = _noteRepo.findById(topic, noteId);
+    emit(state.copyWith(topic: topic, note: note));
   }
 
   void updateNote(String text) {
     final note = state.note.copyWith(text: text);
-    _noteRepo.update(note);
+    final topic = state.topic;
+    _noteRepo.update(topic, note);
     emit(state.copyWith(note: note));
   }
 }

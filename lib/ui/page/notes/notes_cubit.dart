@@ -11,12 +11,14 @@ class NotesCubit extends Cubit<NotesState> {
 
   NotesCubit() : super(const NotesState());
 
-  void initState() {
+  void initState(String topic) {
+    emit(state.copyWith(topic: topic));
     _listenNotes();
   }
 
   void _listenNotes() {
-    _notesStreamSubscription = _noteRepo.notesStream.listen((notes) {
+    _notesStreamSubscription =
+        _noteRepo.getNotesStream(state.topic).listen((notes) {
       emit(state.copyWith(notes: notes));
     });
   }

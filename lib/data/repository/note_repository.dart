@@ -1,15 +1,15 @@
 import 'package:postnote/data/model/note.dart';
 
 abstract class NoteRepository {
-  Stream<List<Note>> get notesStream;
+  Stream<List<Note>> getNotesStream(String topic);
 
-  Note? findById(String id);
+  Note? findById(String topic, String id);
 
-  void update(Note note);
+  void update(String topic, Note note);
 
-  void add(Note note, {int index = 0});
+  void add(String topic, Note note, {int index = 0});
 
-  void remove(Note note);
+  void remove(String topic, Note note);
 
-  void replace(Note oldNote, Note newNote);
+  void replace(String topic, Note oldNote, Note newNote);
 }

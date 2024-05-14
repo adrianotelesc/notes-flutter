@@ -1,9 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get_it/get_it.dart';
@@ -13,7 +10,9 @@ import 'package:postnote/ui/page/notes/notes_state.dart';
 import 'package:postnote/ui/widget/sticky_note.dart';
 
 class NotesPage extends StatefulWidget {
-  const NotesPage({super.key});
+  const NotesPage({super.key, required this.topic});
+
+  final String topic;
 
   @override
   State<StatefulWidget> createState() => _NotesPageState();
@@ -25,7 +24,13 @@ class _NotesPageState extends State<NotesPage> {
   @override
   void initState() {
     super.initState();
-    _cubit.initState();
+    _cubit.initState(widget.topic);
+  }
+
+  @override
+  void dispose() {
+    _cubit.close();
+    super.dispose();
   }
 
   @override
@@ -37,7 +42,7 @@ class _NotesPageState extends State<NotesPage> {
           appBar: PreferredSize(
             preferredSize: appBarSize(context), // here the desired height
             child: AppBar(
-              title: const Text('Luiza'),
+              title: Text(widget.topic),
               centerTitle: shouldCenterTitle(context),
             ),
           ),
@@ -52,11 +57,12 @@ class _NotesPageState extends State<NotesPage> {
               return StickyNote(
                   id: note.id,
                   text: note.text,
-                  onTap: (id) => context.push('/notes/$id'));
+                  onTap: (id) => context.push('/${widget.topic}/$id'));
             },
           ),
           floatingActionButtonLocation: floaatingActionButtonLocation(context),
-          floatingActionButton: floaatingActionButton(context),
+          floatingActionButton: floaatingActionButton(
+              context, () => context.push('/${widget.topic}/new')),
         );
       },
     );
@@ -74,16 +80,16 @@ class _NotesPageState extends State<NotesPage> {
     return EdgeInsets.fromLTRB(16, screenWidth <= 430 ? 16 : 48, 16, 120);
   }
 
-  Widget floaatingActionButton(BuildContext context) {
+  Widget floaatingActionButton(BuildContext context, Function() onPressed) {
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth <= 430) {
       return FloatingActionButton(
-        onPressed: () => context.push('/notes/new'),
+        onPressed: onPressed,
         child: const Icon(Icons.add),
       );
     }
     return FloatingActionButton.extended(
-      onPressed: () => context.push('/notes/new'),
+      onPressed: onPressed,
       label: const Text('New note'),
       icon: const Icon(Icons.add),
     );

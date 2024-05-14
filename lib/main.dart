@@ -1,5 +1,6 @@
+import 'package:postnote/ui/page/home/home_page.dart';
 import 'package:postnote/web_stub_plugins.dart'
-    if (dart.html) 'package:postnote/web_plugins.dart'
+    if (dart.library.html) 'package:postnote/web_plugins.dart'
     if (dart.library.io) 'package:postnote/web_stub_plugins.dart' as plugins;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -45,17 +46,24 @@ class PostnoteApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       routerConfig: GoRouter(
         navigatorKey: _navigationKey,
-        initialLocation: '/notes',
         routes: [
           GoRoute(
-            path: '/notes',
-            builder: (context, state) => const NotesPage(),
+            path: '/',
+            builder: (context, state) => HomePage(key: state.pageKey),
+          ),
+          GoRoute(
+            path: '/:topic',
+            builder: (context, state) => NotesPage(
+              key: state.pageKey,
+              topic: state.pathParameters['topic'] ?? '',
+            ),
             routes: [
               GoRoute(
                 path: ':id',
                 pageBuilder: (context, state) {
                   return NoteEditorPage(
                     key: state.pageKey,
+                    topic: state.pathParameters['topic'] ?? '',
                     noteId: state.pathParameters['id'],
                   );
                 },
