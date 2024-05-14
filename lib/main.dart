@@ -56,7 +56,7 @@ class PostnoteApp extends StatelessWidget {
                 pageBuilder: (context, state) {
                   return NoteEditorPage(
                     key: state.pageKey,
-                    noteId: state.pathParameters['id'] ?? '',
+                    noteId: state.pathParameters['id'],
                   );
                 },
               ),

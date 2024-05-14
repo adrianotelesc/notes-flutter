@@ -34,9 +34,12 @@ class NoteEditorPage<T> extends Page<T> {
         return Dialog(
           insetPadding: const EdgeInsets.fromLTRB(24, 160, 24, 24),
           alignment: Alignment.topCenter,
-          child: SizedBox(
-            width: 600,
-            height: 182,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: 182.0,
+              maxHeight: _calculateDialogMaxHeight(context),
+              maxWidth: 600,
+            ),
             child: _NoteEditor(
               key: super.key,
               noteId: noteId,
@@ -45,6 +48,11 @@ class NoteEditorPage<T> extends Page<T> {
         );
       },
     );
+  }
+
+  double _calculateDialogMaxHeight(context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    return screenHeight * .75;
   }
 
   MaterialPageRoute<T> _createPageRoute(BuildContext context) {
@@ -73,7 +81,8 @@ class _NoteEditor extends StatefulWidget {
 }
 
 class _NoteEditorState extends State<_NoteEditor> {
-  late TextEditingController _textEditingController;
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   final _cubit = GetIt.instance.get<NoteEditorCubit>();
 
@@ -81,13 +90,13 @@ class _NoteEditorState extends State<_NoteEditor> {
   void initState() {
     super.initState();
     _cubit.initState(noteId: widget.noteId);
-    _textEditingController =
-        TextEditingController(text: _cubit.state.note.text);
+    _textEditingController.text = _cubit.state.note.text;
   }
 
   @override
   void dispose() {
     _textEditingController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -96,28 +105,55 @@ class _NoteEditorState extends State<_NoteEditor> {
     return BlocBuilder<NoteEditorCubit, NoteEditorState>(
       bloc: _cubit,
       builder: (context, state) {
-        return Flex(
-          direction: Axis.vertical,
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: TextField(
-                  expands: true,
-                  clipBehavior: Clip.none,
-                  scrollPadding: const EdgeInsets.all(0),
-                  controller: _textEditingController,
-                  maxLines: null,
-                  autofocus: state.note.text.isEmpty,
-                  onChanged: (text) => _cubit.updateNote(text),
-                  keyboardType: TextInputType.multiline,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return ConstrainedBox(
+              constraints: constraints.minHeight == 0
+                  ? const BoxConstraints.expand()
+                  : constraints,
+              child: RawScrollbar(
+                shape: const StadiumBorder(),
+                controller: _scrollController,
+                padding: EdgeInsets.symmetric(
+                  vertical: constraints.minHeight == 0 ? 0 : 32,
+                  horizontal: 4,
+                ),
+                child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final textStyle = Theme.of(context).textTheme.bodyLarge;
+                      final height = textStyle?.height ?? 0;
+                      final fontSize = textStyle?.fontSize ?? 0;
+                      final lineHeight = fontSize * height;
+                      final minLines = constraints.minHeight ~/ lineHeight;
+
+                      return SingleChildScrollView(
+                        controller: _scrollController,
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: TextField(
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(vertical: 4),
+                            ),
+                            style: textStyle,
+                            minLines: minLines > 0 ? minLines : null,
+                            controller: _textEditingController,
+                            maxLines: null,
+                            autofocus: state.note.text.isEmpty,
+                            onChanged: (text) => _cubit.updateNote(text),
+                            keyboardType: TextInputType.multiline,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
-            ),
-          ],
+            );
+          },
         );
       },
     );
