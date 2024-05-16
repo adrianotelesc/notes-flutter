@@ -1,0 +1,14 @@
+name: material_symbols
+
+environment:
+  sdk: '>=3.2.0-190.0.dev <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  fonts:
+    - family: MaterialSymbols
+      fonts:
+        - asset: packages/material_symbols/fonts/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf
