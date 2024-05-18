@@ -8,12 +8,15 @@ class MaterialSymbols {
   static const _fontFamily = 'MaterialSymbols';
   static const _fontPackage = 'material_symbols';
 
-  static const IconData door_open =
-      IconData(0xe77c, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData note_stack =
+      IconData(0xf562, fontFamily: _fontFamily, fontPackage: _fontPackage);
 
-  static const IconData lock_reset =
-      IconData(0xeade, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData refresh =
+      IconData(0xe5d5, fontFamily: _fontFamily, fontPackage: _fontPackage);
 
-  static const IconData add_home =
-      IconData(0xf8eb, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData close =
+      IconData(0xe5cd, fontFamily: _fontFamily, fontPackage: _fontPackage);
+
+  static const IconData keyboard =
+      IconData(0xe312, fontFamily: _fontFamily, fontPackage: _fontPackage);
 }

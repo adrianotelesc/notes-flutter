@@ -36,11 +36,19 @@ class _HomePageState extends State<HomePage> {
                   controller: _scrollController,
                   children: [
                     const SizedBox.square(dimension: 80),
-                    Center(
-                      child: Text(
-                        'Postnote',
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
+                    Column(
+                      children: [
+                        Text(
+                          'Postnote',
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
+                        const SizedBox.square(dimension: 4),
+                        Text(
+                          'Take notes from anywhere, and effortlessly share with everyone.',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ],
                     ),
                     const SizedBox.square(dimension: 24),
                     TextField(
@@ -51,22 +59,32 @@ class _HomePageState extends State<HomePage> {
                       },
                       decoration: InputDecoration(
                         filled: true,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 16,
+                        prefixIcon: const Padding(
+                          padding:
+                              EdgeInsetsDirectional.only(start: 16, end: 12),
+                          child: Icon(MaterialSymbols.keyboard),
                         ),
-                        hintText: 'What\'s the password?',
                         suffixIcon: Padding(
-                          padding: const EdgeInsetsDirectional.only(end: 4.0),
+                          padding: const EdgeInsetsDirectional.only(
+                              start: 12, end: 4),
                           child: IconButton(
-                            tooltip: "Generate",
+                            tooltip: 'Generate a code',
                             onPressed: () {
                               _textEditingController.text =
                                   const Uuid().v1().toString();
                             },
-                            icon: const Icon(MaterialSymbols.lock_reset),
+                            icon: const Icon(MaterialSymbols.refresh),
                           ),
                         ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 16,
+                        ),
+                        hintText: 'Enter a code',
+                        helperStyle: Theme.of(context).textTheme.labelMedium,
+                        helperText:
+                            'This code can be anything you\'d like to use to access the notes.',
+                        helperMaxLines: 2,
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(64)),
                         ),
@@ -84,13 +102,8 @@ class _HomePageState extends State<HomePage> {
                             if (_textEditingController.text.isEmpty) return;
                             context.push('/${_textEditingController.text}');
                           },
-                          label: const Text('Open'),
-                          icon: const Icon(MaterialSymbols.door_open),
-                        ),
-                        OutlinedButton.icon(
-                          onPressed: () {},
-                          label: const Text('Add shortcut'),
-                          icon: const Icon(MaterialSymbols.add_home),
+                          label: const Text('Go to notes'),
+                          icon: const Icon(MaterialSymbols.note_stack),
                         ),
                       ],
                     ),
@@ -119,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                                       children: [
                                         Icon(Icons.copy),
                                         SizedBox.square(dimension: 8),
-                                        Text('Copy password')
+                                        Text('Copy code')
                                       ],
                                     ),
                                     onTap: () {
@@ -129,21 +142,11 @@ class _HomePageState extends State<HomePage> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                            content: Text("Secret copied"),
+                                            content: Text("Code copied"),
                                           ),
                                         );
                                       });
                                     },
-                                  ),
-                                  const PopupMenuItem<SampleItem>(
-                                    value: SampleItem.itemOne,
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.border_color),
-                                        SizedBox.square(dimension: 8),
-                                        Text('Rename')
-                                      ],
-                                    ),
                                   ),
                                   const PopupMenuItem<SampleItem>(
                                     value: SampleItem.itemTwo,
@@ -151,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                                       children: [
                                         Icon(Icons.delete),
                                         SizedBox.square(dimension: 8),
-                                        Text('Delete')
+                                        Text('Remove')
                                       ],
                                     ),
                                   ),
