@@ -7,24 +7,33 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_state.dart';
+import 'package:postnote/ui/widget/extendable_fab.dart';
 import 'package:postnote/ui/widget/sticky_note.dart';
 
 class NotesPage extends StatefulWidget {
-  const NotesPage({super.key, required this.topic});
+  const NotesPage({
+    super.key,
+    required this.code,
+  });
 
-  final String topic;
+  final String code;
 
   @override
   State<StatefulWidget> createState() => _NotesPageState();
 }
 
 class _NotesPageState extends State<NotesPage> {
+  static const double _smallScreenWidthThreshold = 430;
+  static const double _tallToolbarHeight = 88.0;
+  static const int _minimumColumnCount = 2;
+  static const double _columnWidth = 200.0;
+
   final _cubit = GetIt.instance.get<NotesCubit>();
 
   @override
   void initState() {
     super.initState();
-    _cubit.initState(widget.topic);
+    _cubit.initState(widget.code);
   }
 
   @override
@@ -35,82 +44,81 @@ class _NotesPageState extends State<NotesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQueryData = MediaQuery.of(context);
     return BlocBuilder<NotesCubit, NotesState>(
       bloc: _cubit,
       builder: (context, state) {
         return Scaffold(
           appBar: PreferredSize(
-            preferredSize: appBarSize(context), // here the desired height
+            preferredSize: _calculateAppBarSize(mediaQueryData),
             child: AppBar(
-              title: Text(widget.topic),
-              centerTitle: shouldCenterTitle(context),
+              title: Text(widget.code),
+              centerTitle: _shouldCenterAppBarTitle(mediaQueryData),
             ),
           ),
           body: MasonryGridView.builder(
             gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: _calculateMaxColumnCount(context),
+              crossAxisCount: _calculateColumnCount(mediaQueryData),
             ),
-            padding: contentPadding(context),
+            padding: _calculateContentPadding(mediaQueryData),
             itemCount: state.notes.length,
             itemBuilder: (context, index) {
               final note = state.notes[index];
               return StickyNote(
-                  id: note.id,
-                  text: note.text,
-                  onTap: (id) => context.push('/${widget.topic}/$id'));
+                id: note.id,
+                text: note.text,
+                onTap: (noteId) => context.push('/${widget.code}/$noteId'),
+              );
             },
           ),
-          floatingActionButtonLocation: floaatingActionButtonLocation(context),
-          floatingActionButton: floaatingActionButton(
-              context, () => context.push('/${widget.topic}/new')),
+          floatingActionButton: ExtendableFab(
+            isExtended: _shouldExtendFab(mediaQueryData),
+            onPressed: () => context.push('/${widget.code}/new'),
+          ),
+          floatingActionButtonLocation: _determineFabLocation(mediaQueryData),
         );
       },
     );
   }
 
-  Size appBarSize(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return screenWidth <= 430
+  Size _calculateAppBarSize(final MediaQueryData mediaQueryData) {
+    final screenWidth = mediaQueryData.size.width;
+    return screenWidth <= _smallScreenWidthThreshold
         ? const Size.fromHeight(kToolbarHeight)
-        : const Size.fromHeight(88);
+        : const Size.fromHeight(_tallToolbarHeight);
   }
 
-  EdgeInsets contentPadding(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return EdgeInsets.fromLTRB(16, screenWidth <= 430 ? 16 : 48, 16, 120);
+  bool _shouldCenterAppBarTitle(final MediaQueryData mediaQueryData) {
+    final screenWidth = mediaQueryData.size.width;
+    return screenWidth <= _smallScreenWidthThreshold;
   }
 
-  Widget floaatingActionButton(BuildContext context, Function() onPressed) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    if (screenWidth <= 430) {
-      return FloatingActionButton(
-        onPressed: onPressed,
-        child: const Icon(Icons.add),
-      );
-    }
-    return FloatingActionButton.extended(
-      onPressed: onPressed,
-      label: const Text('New note'),
-      icon: const Icon(Icons.add),
+  int _calculateColumnCount(final MediaQueryData mediaQueryData) {
+    final screenWidth = mediaQueryData.size.width;
+    return max(_minimumColumnCount, screenWidth ~/ _columnWidth);
+  }
+
+  EdgeInsets _calculateContentPadding(final MediaQueryData mediaQueryData) {
+    final screenWidth = mediaQueryData.size.width;
+    return EdgeInsets.only(
+      left: 16,
+      top: screenWidth <= _smallScreenWidthThreshold ? 16 : 48,
+      right: 16,
+      bottom: 120,
     );
   }
 
-  FloatingActionButtonLocation floaatingActionButtonLocation(
-      BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    if (screenWidth <= 430) {
-      return FloatingActionButtonLocation.endFloat;
-    }
-    return FloatingActionButtonLocation.startTop;
+  bool _shouldExtendFab(final MediaQueryData mediaQueryData) {
+    final screenWidth = mediaQueryData.size.width;
+    return screenWidth <= _smallScreenWidthThreshold;
   }
 
-  bool shouldCenterTitle(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return screenWidth <= 430;
-  }
-
-  int _calculateMaxColumnCount(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return max(2, screenWidth ~/ 200);
+  FloatingActionButtonLocation _determineFabLocation(
+    final MediaQueryData mediaQueryData,
+  ) {
+    final screenWidth = mediaQueryData.size.width;
+    return screenWidth <= _smallScreenWidthThreshold
+        ? FloatingActionButtonLocation.endFloat
+        : FloatingActionButtonLocation.startTop;
   }
 }

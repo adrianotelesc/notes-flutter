@@ -6,9 +6,9 @@ import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
 
 class NoteEditorPage<T> extends Page<T> {
   final String? noteId;
-  final String topic;
+  final String code;
 
-  const NoteEditorPage({super.key, this.topic = '', this.noteId});
+  const NoteEditorPage({super.key, this.code = '', this.noteId});
 
   @override
   Route<T> createRoute(BuildContext context) {
@@ -43,7 +43,7 @@ class NoteEditorPage<T> extends Page<T> {
             ),
             child: _NoteEditor(
               key: super.key,
-              topic: topic,
+              code: code,
               noteId: noteId,
             ),
           ),
@@ -65,7 +65,7 @@ class NoteEditorPage<T> extends Page<T> {
           appBar: AppBar(),
           body: _NoteEditor(
             key: super.key,
-            topic: topic,
+            code: code,
             noteId: noteId,
           ),
         );
@@ -76,9 +76,9 @@ class NoteEditorPage<T> extends Page<T> {
 
 class _NoteEditor extends StatefulWidget {
   final String? noteId;
-  final String topic;
+  final String code;
 
-  const _NoteEditor({super.key, this.topic = '', this.noteId});
+  const _NoteEditor({super.key, this.code = '', this.noteId});
 
   @override
   State<StatefulWidget> createState() => _NoteEditorState();
@@ -93,7 +93,7 @@ class _NoteEditorState extends State<_NoteEditor> {
   @override
   void initState() {
     super.initState();
-    _cubit.initState(topic: widget.topic, noteId: widget.noteId);
+    _cubit.initState(code: widget.code, noteId: widget.noteId);
     _textEditingController.text = _cubit.state.note.text;
   }
 

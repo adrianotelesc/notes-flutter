@@ -1,14 +1,14 @@
 import 'package:postnote/data/model/note.dart';
 
 class NoteEditorState {
-  final String topic;
+  final String code;
   final Note note;
 
-  NoteEditorState({this.topic = '', required this.note});
+  NoteEditorState({this.code = '', required this.note});
 
-  NoteEditorState copyWith({String? topic, Note? note}) {
+  NoteEditorState copyWith({String? code, Note? note}) {
     return NoteEditorState(
-      topic: topic ?? this.topic,
+      code: code ?? this.code,
       note: note ?? this.note,
     );
   }

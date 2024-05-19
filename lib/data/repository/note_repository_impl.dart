@@ -12,46 +12,46 @@ class NoteRepositoryImpl extends NoteRepository {
   }
 
   @override
-  Stream<List<Note>> getNotesStream(String topic) =>
-      _notesStreamController.stream.map((event) => event[topic] ?? []);
+  Stream<List<Note>> getNotesStream(String code) =>
+      _notesStreamController.stream.map((event) => event[code] ?? []);
 
   @override
-  Note? findById(String topic, String id) =>
-      _notes[topic]?.where((element) => element.id == id).firstOrNull;
+  Note? findById(String code, String id) =>
+      _notes[code]?.where((element) => element.id == id).firstOrNull;
 
   @override
-  void update(String topic, Note note) {
-    final existingNote = findById(topic, note.id);
+  void update(String code, Note note) {
+    final existingNote = findById(code, note.id);
     if (existingNote != null) {
       if (existingNote.isNotEmpty && note.isEmpty) {
-        remove(topic, existingNote);
+        remove(code, existingNote);
       } else if (existingNote != note) {
-        replace(topic, existingNote, note);
+        replace(code, existingNote, note);
       }
     } else {
-      add(topic, note);
+      add(code, note);
     }
   }
 
   @override
-  void add(String topic, Note note, {int index = 0}) {
+  void add(String code, Note note, {int index = 0}) {
     if (note.isEmpty) return;
-    if (_notes[topic] == null) _notes[topic] = [];
-    _notes[topic]?.insert(index, note);
+    if (_notes[code] == null) _notes[code] = [];
+    _notes[code]?.insert(index, note);
     _notesStreamController.add(_notes);
   }
 
   @override
-  void remove(String topic, Note note) {
+  void remove(String code, Note note) {
     _notes.remove(note);
     _notesStreamController.add(_notes);
   }
 
   @override
-  void replace(String topic, Note oldNote, Note newNote) {
-    final index = _notes[topic]?.indexOf(oldNote) ?? 0;
-    _notes[topic]?.removeAt(index);
-    _notes[topic]?.insert(index, newNote);
+  void replace(String code, Note oldNote, Note newNote) {
+    final index = _notes[code]?.indexOf(oldNote) ?? 0;
+    _notes[code]?.removeAt(index);
+    _notes[code]?.insert(index, newNote);
     _notesStreamController.add(_notes);
   }
 }
