@@ -1,11 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:postnote/ui/page/notes/notes_cubit.dart';
+import 'package:postnote/ui/page/notes/notes_page_helper.dart';
 import 'package:postnote/ui/page/notes/notes_state.dart';
 import 'package:postnote/ui/widget/extendable_fab.dart';
 import 'package:postnote/ui/widget/sticky_note.dart';
@@ -23,11 +22,6 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
-  static const double _smallScreenWidthThreshold = 430;
-  static const double _tallToolbarHeight = 88.0;
-  static const int _minimumColumnCount = 2;
-  static const double _columnWidth = 200.0;
-
   final _cubit = GetIt.instance.get<NotesCubit>();
 
   @override
@@ -44,23 +38,23 @@ class _NotesPageState extends State<NotesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
+    final pageHelper = NotesPageHelper(MediaQuery.of(context));
     return BlocBuilder<NotesCubit, NotesState>(
       bloc: _cubit,
       builder: (context, state) {
         return Scaffold(
           appBar: PreferredSize(
-            preferredSize: _calculateAppBarSize(mediaQueryData),
+            preferredSize: pageHelper.calculateAppBarSize(),
             child: AppBar(
               title: Text(widget.code),
-              centerTitle: _shouldCenterAppBarTitle(mediaQueryData),
+              centerTitle: pageHelper.shouldCenterAppBarTitle(),
             ),
           ),
           body: MasonryGridView.builder(
             gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: _calculateColumnCount(mediaQueryData),
+              crossAxisCount: pageHelper.calculateColumnCount(),
             ),
-            padding: _calculateContentPadding(mediaQueryData),
+            padding: pageHelper.calculateContentPadding(),
             itemCount: state.notes.length,
             itemBuilder: (context, index) {
               final note = state.notes[index];
@@ -72,53 +66,12 @@ class _NotesPageState extends State<NotesPage> {
             },
           ),
           floatingActionButton: ExtendableFab(
-            isExtended: _shouldExtendFab(mediaQueryData),
+            isExtended: pageHelper.shouldExtendFab(),
             onPressed: () => context.push('/${widget.code}/new'),
           ),
-          floatingActionButtonLocation: _determineFabLocation(mediaQueryData),
+          floatingActionButtonLocation: pageHelper.determineFabLocation(),
         );
       },
     );
-  }
-
-  Size _calculateAppBarSize(final MediaQueryData mediaQueryData) {
-    final screenWidth = mediaQueryData.size.width;
-    return screenWidth <= _smallScreenWidthThreshold
-        ? const Size.fromHeight(kToolbarHeight)
-        : const Size.fromHeight(_tallToolbarHeight);
-  }
-
-  bool _shouldCenterAppBarTitle(final MediaQueryData mediaQueryData) {
-    final screenWidth = mediaQueryData.size.width;
-    return screenWidth <= _smallScreenWidthThreshold;
-  }
-
-  int _calculateColumnCount(final MediaQueryData mediaQueryData) {
-    final screenWidth = mediaQueryData.size.width;
-    return max(_minimumColumnCount, screenWidth ~/ _columnWidth);
-  }
-
-  EdgeInsets _calculateContentPadding(final MediaQueryData mediaQueryData) {
-    final screenWidth = mediaQueryData.size.width;
-    return EdgeInsets.only(
-      left: 16,
-      top: screenWidth <= _smallScreenWidthThreshold ? 16 : 48,
-      right: 16,
-      bottom: 120,
-    );
-  }
-
-  bool _shouldExtendFab(final MediaQueryData mediaQueryData) {
-    final screenWidth = mediaQueryData.size.width;
-    return screenWidth <= _smallScreenWidthThreshold;
-  }
-
-  FloatingActionButtonLocation _determineFabLocation(
-    final MediaQueryData mediaQueryData,
-  ) {
-    final screenWidth = mediaQueryData.size.width;
-    return screenWidth <= _smallScreenWidthThreshold
-        ? FloatingActionButtonLocation.endFloat
-        : FloatingActionButtonLocation.startTop;
   }
 }
