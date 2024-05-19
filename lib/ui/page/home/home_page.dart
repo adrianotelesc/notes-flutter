@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Text(
                           'Postnote',
-                          style: Theme.of(context).textTheme.displayMedium,
+                          style: Theme.of(context).textTheme.displayLarge,
                         ),
                         const SizedBox.square(dimension: 4),
                         Text(
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    const SizedBox.square(dimension: 24),
+                    const SizedBox.square(dimension: 40),
                     TextField(
                       textInputAction: TextInputAction.done,
                       onSubmitted: (value) {
