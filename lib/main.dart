@@ -78,23 +78,25 @@ class PostnoteApp extends StatelessWidget {
           GoRoute(
             path: '/',
             builder: (context, state) => HomePage(key: state.pageKey),
-          ),
-          GoRoute(
-            path: '/:code',
-            builder: (context, state) => NotesPage(
-              key: state.pageKey,
-              code: state.pathParameters['code'] ?? '',
-            ),
             routes: [
               GoRoute(
-                path: ':id',
-                pageBuilder: (context, state) {
-                  return NoteEditorPage(
-                    key: state.pageKey,
-                    code: state.pathParameters['code'] ?? '',
-                    noteId: state.pathParameters['id'],
-                  );
-                },
+                path: ':code',
+                builder: (context, state) => NotesPage(
+                  key: state.pageKey,
+                  code: state.pathParameters['code'] ?? '',
+                ),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    pageBuilder: (context, state) {
+                      return NoteEditorPage(
+                        key: state.pageKey,
+                        code: state.pathParameters['code'] ?? '',
+                        noteId: state.pathParameters['id'],
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
