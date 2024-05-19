@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
-import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
+import 'package:postnote/ui/page/note_details/note_details_cubit.dart';
+import 'package:postnote/ui/page/note_details/note_details_state.dart';
 
-class NoteEditorPage<T> extends Page<T> {
+class NoteDetailsPage<T> extends Page<T> {
   final String? noteId;
   final String code;
 
-  const NoteEditorPage({super.key, this.code = '', this.noteId});
+  const NoteDetailsPage({
+    super.key,
+    this.code = '',
+    this.noteId,
+  });
 
   @override
   Route<T> createRoute(BuildContext context) {
@@ -88,7 +92,7 @@ class _NoteEditorState extends State<_NoteEditor> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
 
-  final _cubit = GetIt.instance.get<NoteEditorCubit>();
+  final _cubit = GetIt.instance.get<NoteDetailsCubit>();
 
   @override
   void initState() {
@@ -106,7 +110,7 @@ class _NoteEditorState extends State<_NoteEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NoteEditorCubit, NoteEditorState>(
+    return BlocBuilder<NoteDetailsCubit, NoteDetailsState>(
       bloc: _cubit,
       builder: (context, state) {
         return LayoutBuilder(

@@ -2,12 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:postnote/data/model/note.dart';
 import 'package:postnote/data/repository/note_repository.dart';
-import 'package:postnote/ui/page/note_editor/note_editor_state.dart';
+import 'package:postnote/ui/page/note_details/note_details_state.dart';
 
-class NoteEditorCubit extends Cubit<NoteEditorState> {
+class NoteDetailsCubit extends Cubit<NoteDetailsState> {
   final _noteRepo = GetIt.instance.get<NoteRepository>();
 
-  NoteEditorCubit() : super(NoteEditorState(note: Note()));
+  NoteDetailsCubit() : super(NoteDetailsState(note: Note()));
 
   void initState({required String code, String? noteId}) {
     _findNote(code: code, noteId: noteId);

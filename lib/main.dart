@@ -7,8 +7,8 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:postnote/data/repository/note_repository.dart';
 import 'package:postnote/data/repository/note_repository_impl.dart';
-import 'package:postnote/ui/page/note_editor/note_editor_cubit.dart';
-import 'package:postnote/ui/page/note_editor/note_editor_page.dart';
+import 'package:postnote/ui/page/note_details/note_details_cubit.dart';
+import 'package:postnote/ui/page/note_details/note_details_page.dart';
 import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_page.dart';
 
@@ -22,7 +22,7 @@ void setUpDependencies() {
   final getIt = GetIt.instance;
   getIt.registerSingleton<NoteRepository>(NoteRepositoryImpl());
   getIt.registerFactory(() => NotesCubit());
-  getIt.registerFactory(() => NoteEditorCubit());
+  getIt.registerFactory(() => NoteDetailsCubit());
 }
 
 class PostnoteApp extends StatelessWidget {
@@ -89,7 +89,7 @@ class PostnoteApp extends StatelessWidget {
                   GoRoute(
                     path: ':id',
                     pageBuilder: (context, state) {
-                      return NoteEditorPage(
+                      return NoteDetailsPage(
                         key: state.pageKey,
                         code: state.pathParameters['code'] ?? '',
                         noteId: state.pathParameters['id'],
