@@ -44,17 +44,17 @@ class _NotesPageState extends State<NotesPage> {
       builder: (context, state) {
         return Scaffold(
           appBar: PreferredSize(
-            preferredSize: pageHelper.calculateAppBarSize(),
+            preferredSize: pageHelper.appBarSize,
             child: AppBar(
               title: Text(widget.code),
-              centerTitle: pageHelper.shouldCenterAppBarTitle(),
+              centerTitle: pageHelper.isSmallScreen,
             ),
           ),
           body: MasonryGridView.builder(
             gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: pageHelper.calculateColumnCount(),
+              crossAxisCount: pageHelper.columnCount,
             ),
-            padding: pageHelper.calculateContentPadding(),
+            padding: pageHelper.contentPadding,
             itemCount: state.notes.length,
             itemBuilder: (context, index) {
               final note = state.notes[index];
@@ -66,10 +66,10 @@ class _NotesPageState extends State<NotesPage> {
             },
           ),
           floatingActionButton: ExtendableFab(
-            isExtended: pageHelper.shouldExtendFab(),
+            isExtended: pageHelper.isSmallScreen,
             onPressed: () => context.push('/${widget.code}/new'),
           ),
-          floatingActionButtonLocation: pageHelper.determineFabLocation(),
+          floatingActionButtonLocation: pageHelper.fabLocation,
         );
       },
     );
