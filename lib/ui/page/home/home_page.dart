@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 600),
               child: CustomScrollView(
+                controller: _rootScrollController,
                 slivers: [
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
