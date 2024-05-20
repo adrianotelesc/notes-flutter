@@ -13,9 +13,11 @@ class NotesPage extends StatefulWidget {
   const NotesPage({
     super.key,
     required this.code,
+    this.shouldReplace = false,
   });
 
   final String code;
+  final bool shouldReplace;
 
   @override
   State<StatefulWidget> createState() => _NotesPageState();
@@ -50,24 +52,32 @@ class _NotesPageState extends State<NotesPage> {
               centerTitle: pageHelper.isSmallScreen,
             ),
           ),
-          body: MasonryGridView.builder(
-            gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: pageHelper.columnCount,
-            ),
-            padding: pageHelper.contentPadding,
-            itemCount: state.notes.length,
-            itemBuilder: (context, index) {
-              final note = state.notes[index];
-              return StickyNote(
-                id: note.id,
-                text: note.text,
-                onTap: (noteId) => context.push('/${widget.code}/$noteId'),
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              return MasonryGridView.builder(
+                gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: pageHelper.getColumnCount(constraints),
+                ),
+                padding: pageHelper.contentPadding,
+                itemCount: state.notes.length,
+                itemBuilder: (context, index) {
+                  final note = state.notes[index];
+                  return StickyNote(
+                    id: note.id,
+                    text: note.text,
+                    onTap: (noteId) => widget.shouldReplace
+                        ? context.replace('/${widget.code}/$noteId')
+                        : context.push('/${widget.code}/$noteId'),
+                  );
+                },
               );
             },
           ),
           floatingActionButton: ExtendableFab(
             isExtended: pageHelper.isSmallScreen,
-            onPressed: () => context.push('/${widget.code}/new'),
+            onPressed: () => widget.shouldReplace
+                ? context.replace('/${widget.code}/new')
+                : context.push('/${widget.code}/new'),
           ),
           floatingActionButtonLocation: pageHelper.fabLocation,
         );

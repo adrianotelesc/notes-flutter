@@ -25,6 +25,7 @@ class NotesCubit extends Cubit<NotesState> {
     _notesStreamSubscription = notesStream.listen((notes) {
       emit(state.copyWith(notes: notes));
     });
+    _noteRepo.onListen();
   }
 
   @override

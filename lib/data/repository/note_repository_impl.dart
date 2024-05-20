@@ -54,4 +54,9 @@ class NoteRepositoryImpl extends NoteRepository {
     _notes[code]?.insert(index, newNote);
     _notesStreamController.add(_notes);
   }
+
+  @override
+  void onListen() {
+    _notesStreamController.add(_notes);
+  }
 }

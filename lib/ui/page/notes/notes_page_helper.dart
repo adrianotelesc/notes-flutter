@@ -25,9 +25,10 @@ class NotesPageHelper {
         : const Size.fromHeight(_tallToolbarHeight);
   }
 
-  int get columnCount {
-    final screenWidth = _mediaQueryData.size.width;
-    return max(_minimumColumnCount, screenWidth ~/ _columnWidth);
+  int getColumnCount(BoxConstraints constraints) {
+    final contentWidth = constraints.maxWidth;
+    if (contentWidth <= _columnWidth) return 1;
+    return max(_minimumColumnCount, contentWidth ~/ _columnWidth);
   }
 
   EdgeInsets get contentPadding {

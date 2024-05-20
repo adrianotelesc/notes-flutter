@@ -3,6 +3,8 @@ import 'package:postnote/data/model/note.dart';
 abstract class NoteRepository {
   Stream<List<Note>> getNotesStream(String code);
 
+  void onListen();
+
   Note? findById(String code, String id);
 
   void update(String code, Note note);

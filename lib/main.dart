@@ -1,4 +1,5 @@
 import 'package:postnote/ui/page/home/home_page.dart';
+import 'package:postnote/ui/page/two_panel_notes_page.dart';
 import 'package:postnote/web_stub_plugins.dart'
     if (dart.library.html) 'package:postnote/web_plugins.dart'
     if (dart.library.io) 'package:postnote/web_stub_plugins.dart' as plugins;
@@ -8,9 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:postnote/data/repository/note_repository.dart';
 import 'package:postnote/data/repository/note_repository_impl.dart';
 import 'package:postnote/ui/page/note_details/note_details_cubit.dart';
-import 'package:postnote/ui/page/note_details/note_details_page.dart';
 import 'package:postnote/ui/page/notes/notes_cubit.dart';
-import 'package:postnote/ui/page/notes/notes_page.dart';
 
 void main() {
   plugins.setUpPlugins();
@@ -81,16 +80,15 @@ class PostnoteApp extends StatelessWidget {
             routes: [
               GoRoute(
                 path: ':code',
-                builder: (context, state) => NotesPage(
-                  key: state.pageKey,
+                builder: (context, state) => TwoPanelNotesPage(
                   code: state.pathParameters['code'] ?? '',
                 ),
                 routes: [
                   GoRoute(
                     path: ':id',
-                    pageBuilder: (context, state) {
-                      return NoteDetailsPage(
-                        key: state.pageKey,
+                    builder: (context, state) {
+                      return TwoPanelNotesPage(
+                        key: UniqueKey(),
                         code: state.pathParameters['code'] ?? '',
                         noteId: state.pathParameters['id'],
                       );
