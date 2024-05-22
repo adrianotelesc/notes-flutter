@@ -13,11 +13,11 @@ class NotesPage extends StatefulWidget {
   const NotesPage({
     super.key,
     required this.code,
-    this.shouldReplace = false,
+    this.usePageReplacement = false,
   });
 
   final String code;
-  final bool shouldReplace;
+  final bool usePageReplacement;
 
   @override
   State<StatefulWidget> createState() => _NotesPageState();
@@ -45,12 +45,10 @@ class _NotesPageState extends State<NotesPage> {
       bloc: _cubit,
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           appBar: PreferredSize(
             preferredSize: pageHelper.appBarSize,
             child: AppBar(
               title: Text(widget.code),
-              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
               centerTitle: pageHelper.isSmallScreen,
             ),
           ),
@@ -67,7 +65,7 @@ class _NotesPageState extends State<NotesPage> {
                   return StickyNote(
                     id: note.id,
                     text: note.text,
-                    onTap: (noteId) => widget.shouldReplace
+                    onTap: (noteId) => widget.usePageReplacement
                         ? context.replace('/${widget.code}/$noteId')
                         : context.push('/${widget.code}/$noteId'),
                   );
@@ -77,7 +75,7 @@ class _NotesPageState extends State<NotesPage> {
           ),
           floatingActionButton: ExtendableFab(
             isExtended: pageHelper.isSmallScreen,
-            onPressed: () => widget.shouldReplace
+            onPressed: () => widget.usePageReplacement
                 ? context.replace('/${widget.code}/new')
                 : context.push('/${widget.code}/new'),
           ),

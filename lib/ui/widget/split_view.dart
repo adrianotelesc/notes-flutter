@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 
-class SplitView extends StatefulWidget {
-  final Widget left;
-  final Widget right;
+class HorizontalSplit extends StatefulWidget {
   final double ratio;
 
-  const SplitView({
+  final Widget left;
+
+  final Widget right;
+
+  const HorizontalSplit({
     super.key,
+    this.ratio = 0.5,
     required this.left,
     required this.right,
-    this.ratio = 0.5,
   })  : assert(ratio >= 0),
         assert(ratio <= 1);
 
   @override
-  State<SplitView> createState() => _SplitViewState();
+  State<HorizontalSplit> createState() => _HorizontalSplitState();
 }
 
-class _SplitViewState extends State<SplitView> {
+class _HorizontalSplitState extends State<HorizontalSplit> {
   static const _dividerWidth = 8.0;
 
   var _ratio = 0.0;
@@ -25,9 +27,9 @@ class _SplitViewState extends State<SplitView> {
 
   var _dividerOnHover = false;
 
-  get _width1 => _ratio * _maxWidth;
+  get _leftWidth => _ratio * _maxWidth;
 
-  get _width2 => (1 - _ratio) * _maxWidth;
+  get _rightWidth => (1 - _ratio) * _maxWidth;
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _SplitViewState extends State<SplitView> {
         child: Row(
           children: <Widget>[
             SizedBox(
-              width: _width1,
+              width: _leftWidth,
               child: widget.left,
             ),
             MouseRegion(
@@ -91,7 +93,7 @@ class _SplitViewState extends State<SplitView> {
               ),
             ),
             SizedBox(
-              width: _width2,
+              width: _rightWidth,
               child: widget.right,
             ),
           ],

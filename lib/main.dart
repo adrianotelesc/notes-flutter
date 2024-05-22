@@ -1,5 +1,5 @@
 import 'package:postnote/ui/page/home/home_page.dart';
-import 'package:postnote/ui/page/two_panel_notes_page.dart';
+import 'package:postnote/ui/page/adaptive_notes/adaptive_notes_page.dart';
 import 'package:postnote/web_stub_plugins.dart'
     if (dart.library.html) 'package:postnote/web_plugins.dart'
     if (dart.library.io) 'package:postnote/web_stub_plugins.dart' as plugins;
@@ -80,14 +80,14 @@ class PostnoteApp extends StatelessWidget {
             routes: [
               GoRoute(
                 path: ':code',
-                builder: (context, state) => TwoPanelNotesPage(
+                builder: (context, state) => AdaptiveNotesPage(
                   code: state.pathParameters['code'] ?? '',
                 ),
                 routes: [
                   GoRoute(
                     path: ':id',
                     builder: (context, state) {
-                      return TwoPanelNotesPage(
+                      return AdaptiveNotesPage(
                         key: UniqueKey(),
                         code: state.pathParameters['code'] ?? '',
                         noteId: state.pathParameters['id'],

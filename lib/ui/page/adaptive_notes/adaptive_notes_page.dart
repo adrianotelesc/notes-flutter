@@ -3,8 +3,8 @@ import 'package:postnote/ui/page/note_details/note_details_page.dart';
 import 'package:postnote/ui/page/notes/notes_page.dart';
 import 'package:postnote/ui/widget/split_view.dart';
 
-class TwoPanelNotesPage extends StatelessWidget {
-  const TwoPanelNotesPage({
+class AdaptiveNotesPage extends StatelessWidget {
+  const AdaptiveNotesPage({
     super.key,
     required this.code,
     this.noteId,
@@ -14,23 +14,27 @@ class TwoPanelNotesPage extends StatelessWidget {
   final String? noteId;
 
   static const double largeScreenWidthThreshold = 800;
+
   @override
   Widget build(BuildContext context) {
-    return largeScreenWidthThreshold <= MediaQuery.of(context).size.width &&
-            noteId != null
-        ? SplitView(
+    return largeScreenWidthThreshold <= MediaQuery.of(context).size.width
+        ? HorizontalSplit(
+            ratio: .2,
             left: NotesPage(
               code: code,
-              shouldReplace: true,
+              usePageReplacement: true,
             ),
             right: NoteDetailsPage(
               code: code,
               noteId: noteId,
-            ))
-        : NotesPage(
-            code: code,
-            shouldReplace:
-                largeScreenWidthThreshold <= MediaQuery.of(context).size.width,
-          );
+            ),
+          )
+        : noteId == null
+            ? NotesPage(code: code)
+            : NoteDetailsPage(
+                code: code,
+                noteId: noteId,
+                automaticallyImplyLeading: true,
+              );
   }
 }
