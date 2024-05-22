@@ -18,10 +18,12 @@ class SplitView extends StatefulWidget {
 }
 
 class _SplitViewState extends State<SplitView> {
-  final _dividerWidth = 16.0;
+  static const _dividerWidth = 8.0;
 
   var _ratio = 0.0;
   var _maxWidth = 0.0;
+
+  var _dividerOnHover = false;
 
   get _width1 => _ratio * _maxWidth;
 
@@ -50,27 +52,43 @@ class _SplitViewState extends State<SplitView> {
               width: _width1,
               child: widget.left,
             ),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              child: Container(
-                color: Colors.black,
-                width: _dividerWidth,
-                height: constraints.maxHeight,
-                child: const RotationTransition(
-                  turns: AlwaysStoppedAnimation(0.25),
-                  child: Icon(Icons.drag_handle),
-                ),
-              ),
-              onPanUpdate: (DragUpdateDetails details) {
+            MouseRegion(
+              cursor: SystemMouseCursors.resizeColumn,
+              onHover: (event) {
                 setState(() {
-                  _ratio += details.delta.dx / _maxWidth;
-                  if (_ratio > 1) {
-                    _ratio = 1;
-                  } else if (_ratio < 0.0) {
-                    _ratio = 0.0;
-                  }
+                  _dividerOnHover = true;
                 });
               },
+              onExit: (event) {
+                setState(() {
+                  _dividerOnHover = false;
+                });
+              },
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                child: Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  width: _dividerWidth,
+                  height: constraints.maxHeight,
+                  child: VerticalDivider(
+                    thickness: _dividerOnHover ? 3 : 1,
+                    color: _dividerOnHover
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).dividerColor,
+                  ),
+                ),
+                onPanUpdate: (DragUpdateDetails details) {
+                  _dividerOnHover = true;
+                  setState(() {
+                    _ratio += details.delta.dx / _maxWidth;
+                    if (_ratio > 1) {
+                      _ratio = 1;
+                    } else if (_ratio < 0.0) {
+                      _ratio = 0.0;
+                    }
+                  });
+                },
+              ),
             ),
             SizedBox(
               width: _width2,
