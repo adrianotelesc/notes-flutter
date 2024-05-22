@@ -45,10 +45,12 @@ class _NotesPageState extends State<NotesPage> {
       bloc: _cubit,
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           appBar: PreferredSize(
             preferredSize: pageHelper.appBarSize,
             child: AppBar(
               title: Text(widget.code),
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
               centerTitle: pageHelper.isSmallScreen,
             ),
           ),
