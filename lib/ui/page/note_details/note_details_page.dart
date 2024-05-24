@@ -49,10 +49,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
             ? Scaffold(
                 appBar: AppBar(
                   automaticallyImplyLeading: widget.automaticallyImplyLeading,
-                  backgroundColor:
-                      Theme.of(context).colorScheme.surfaceContainer,
                 ),
-                backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
                 body: LayoutBuilder(
                   builder: (context, constraints) {
                     return ConstrainedBox(

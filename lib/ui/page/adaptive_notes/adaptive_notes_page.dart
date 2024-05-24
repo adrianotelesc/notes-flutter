@@ -19,7 +19,6 @@ class AdaptiveNotesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return largeScreenWidthThreshold <= MediaQuery.of(context).size.width
         ? HorizontalSplit(
-            ratio: .2,
             left: NotesPage(
               code: code,
               usePageReplacement: true,

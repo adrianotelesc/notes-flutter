@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 
 class HorizontalSplit extends StatefulWidget {
-  final double ratio;
-
+  final double dividerPosition;
   final Widget left;
-
   final Widget right;
 
   const HorizontalSplit({
     super.key,
-    this.ratio = 0.5,
+    this.dividerPosition = 290,
     required this.left,
     required this.right,
-  })  : assert(ratio >= 0),
-        assert(ratio <= 1);
+  });
 
   @override
   State<HorizontalSplit> createState() => _HorizontalSplitState();
@@ -21,80 +18,73 @@ class HorizontalSplit extends StatefulWidget {
 
 class _HorizontalSplitState extends State<HorizontalSplit> {
   static const _dividerWidth = 8.0;
+  static const _dividerDefaultThickness = 0.0;
+  static const _dividerHoverThickness = 3.0;
 
-  var _ratio = 0.0;
+  var _dividerPosition = 0.0;
   var _maxWidth = 0.0;
+  var _isDividerHovered = false;
 
-  var _dividerOnHover = false;
-
-  get _leftWidth => _ratio * _maxWidth;
-
-  get _rightWidth => (1 - _ratio) * _maxWidth;
+  get _leftWidth => _dividerPosition;
+  get _rightWidth => _maxWidth - _leftWidth;
 
   @override
   void initState() {
     super.initState();
-    _ratio = widget.ratio;
+    _dividerPosition = widget.dividerPosition;
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, BoxConstraints constraints) {
-      assert(_ratio <= 1);
-      assert(_ratio >= 0);
       if (_maxWidth != constraints.maxWidth) {
-        _maxWidth = constraints.maxWidth - _dividerWidth;
+        _maxWidth = constraints.maxWidth;
       }
 
       return SizedBox(
         width: constraints.maxWidth,
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: _leftWidth,
-              child: widget.left,
+        child: Stack(
+          children: [
+            Row(
+              children: [
+                SizedBox(width: _leftWidth, child: widget.left),
+                SizedBox(width: _rightWidth, child: widget.right),
+              ],
             ),
-            MouseRegion(
-              cursor: SystemMouseCursors.resizeColumn,
-              onHover: (event) {
-                setState(() {
-                  _dividerOnHover = true;
-                });
-              },
-              onExit: (event) {
-                setState(() {
-                  _dividerOnHover = false;
-                });
-              },
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  width: _dividerWidth,
-                  height: constraints.maxHeight,
+            Positioned(
+              height: constraints.maxHeight,
+              left: _dividerPosition - _dividerWidth / 2,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.resizeColumn,
+                onHover: (event) {
+                  setState(() {
+                    _isDividerHovered = true;
+                  });
+                },
+                onExit: (event) {
+                  setState(() {
+                    _isDividerHovered = false;
+                  });
+                },
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   child: VerticalDivider(
-                    thickness: _dividerOnHover ? 3 : 1,
-                    color: _dividerOnHover
+                    width: _dividerWidth,
+                    thickness: _isDividerHovered
+                        ? _dividerHoverThickness
+                        : _dividerDefaultThickness,
+                    color: _isDividerHovered
                         ? Theme.of(context).colorScheme.primary
                         : Theme.of(context).dividerColor,
                   ),
+                  onPanUpdate: (DragUpdateDetails details) {
+                    setState(() {
+                      _isDividerHovered = true;
+                      _dividerPosition += details.delta.dx;
+                    });
+                  },
                 ),
-                onPanUpdate: (DragUpdateDetails details) {
-                  _dividerOnHover = true;
-                  setState(() {
-                    _ratio += details.delta.dx / _maxWidth;
-                    if (_ratio > 1) {
-                      _ratio = 1;
-                    } else if (_ratio < 0.0) {
-                      _ratio = 0.0;
-                    }
-                  });
-                },
               ),
-            ),
-            SizedBox(
-              width: _rightWidth,
-              child: widget.right,
             ),
           ],
         ),
