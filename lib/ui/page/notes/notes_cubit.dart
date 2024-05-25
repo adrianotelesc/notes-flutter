@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:postnote/data/repository/note_repository.dart';
 import 'package:postnote/ui/page/notes/notes_state.dart';
 
 class NotesCubit extends Cubit<NotesState> {
-  final _noteRepo = GetIt.instance.get<NoteRepository>();
+  final NoteRepository _noteRepo;
 
   StreamSubscription? _notesStreamSubscription;
 
-  NotesCubit() : super(const NotesState());
+  NotesCubit(this._noteRepo) : super(const NotesState());
 
   void initState(String code) {
     _emitCode(code);
