@@ -25,7 +25,7 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
-  final _cubit = GetIt.instance.get<NotesCubit>();
+  final _cubit = GetIt.I<NotesCubit>();
 
   @override
   void initState() {

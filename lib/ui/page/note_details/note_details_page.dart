@@ -25,7 +25,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
 
-  final _cubit = GetIt.instance.get<NoteDetailsCubit>();
+  final _cubit = GetIt.I<NoteDetailsCubit>();
 
   @override
   void initState() {
