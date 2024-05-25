@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:postnote/ui/page/note_details/note_details_page.dart';
 import 'package:postnote/ui/page/notes/notes_page.dart';
 import 'package:postnote/ui/widget/horizontal_split.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:postnote/data/model/note.dart';
 import 'package:postnote/data/repository/note_repository.dart';
 import 'package:postnote/ui/page/note_details/note_details_state.dart';

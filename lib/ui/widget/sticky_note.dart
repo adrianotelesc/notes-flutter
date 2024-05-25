@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:postnote/ui/util/string_extension.dart';
 
 class StickyNote extends StatelessWidget {
@@ -17,7 +18,7 @@ class StickyNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         onTap: () {
