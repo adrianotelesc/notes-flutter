@@ -40,23 +40,26 @@ class _NotesPageState extends State<NotesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final pageHelper = NotesPageHelper(MediaQuery.of(context));
-    return BlocBuilder<NotesCubit, NotesState>(
-      bloc: _cubit,
-      builder: (context, state) {
-        return Scaffold(
-          appBar: PreferredSize(
-            preferredSize: pageHelper.appBarSize,
-            child: AppBar(
-              title: Text(widget.code),
-              centerTitle: pageHelper.isSmallScreen,
-            ),
-          ),
-          body: LayoutBuilder(
-            builder: (context, constraints) {
-              return MasonryGridView.builder(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final pageHelper = NotesPageHelper(
+          mediaQueryData: MediaQuery.of(context),
+          constraints: constraints,
+        );
+        return BlocBuilder<NotesCubit, NotesState>(
+          bloc: _cubit,
+          builder: (context, state) {
+            return Scaffold(
+              appBar: PreferredSize(
+                preferredSize: pageHelper.appBarSize,
+                child: AppBar(
+                  title: Text(widget.code),
+                  centerTitle: pageHelper.isSmallScreen,
+                ),
+              ),
+              body: MasonryGridView.builder(
                 gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: pageHelper.getColumnCount(constraints),
+                  crossAxisCount: pageHelper.columnCount,
                 ),
                 padding: pageHelper.contentPadding,
                 itemCount: state.notes.length,
@@ -70,16 +73,16 @@ class _NotesPageState extends State<NotesPage> {
                         : context.push('/${widget.code}/$noteId'),
                   );
                 },
-              );
-            },
-          ),
-          floatingActionButton: ExtendableFab(
-            isExtended: pageHelper.isSmallScreen,
-            onPressed: () => widget.usePageReplacement
-                ? context.replace('/${widget.code}/new')
-                : context.push('/${widget.code}/new'),
-          ),
-          floatingActionButtonLocation: pageHelper.fabLocation,
+              ),
+              floatingActionButton: ExtendableFab(
+                isExtended: pageHelper.isSmallScreen,
+                onPressed: () => widget.usePageReplacement
+                    ? context.replace('/${widget.code}/new')
+                    : context.push('/${widget.code}/new'),
+              ),
+              floatingActionButtonLocation: pageHelper.fabLocation,
+            );
+          },
         );
       },
     );
