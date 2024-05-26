@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class PostnoteTheming {
   PostnoteTheming._();
 
+  static const _useMaterial = true;
+
   static const PopupMenuThemeData _popupMenuTheme = PopupMenuThemeData(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -23,7 +25,7 @@ class PostnoteTheming {
       InputDecorationTheme(contentPadding: EdgeInsets.symmetric(vertical: 20));
 
   static final ThemeData light = ThemeData(
-    useMaterial3: true,
+    useMaterial3: _useMaterial,
     brightness: Brightness.light,
     popupMenuTheme: _popupMenuTheme,
     filledButtonTheme: _filledButtonTheme,
@@ -32,7 +34,7 @@ class PostnoteTheming {
   );
 
   static final ThemeData dark = ThemeData(
-    useMaterial3: true,
+    useMaterial3: _useMaterial,
     brightness: Brightness.dark,
     popupMenuTheme: _popupMenuTheme,
     filledButtonTheme: _filledButtonTheme,
