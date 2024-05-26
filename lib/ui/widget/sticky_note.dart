@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:postnote/ui/util/string_extension.dart';
 
 class StickyNote extends StatelessWidget {
+  static const _maxLinex = 10;
+
   final String id;
   final String text;
   final Function(String)? onTap;
@@ -16,19 +18,16 @@ class StickyNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
+    return Card.filled(
       color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        onTap: () {
-          onTap?.call(id);
-        },
+        onTap: onTap != null ? () => onTap?.call(id) : null,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            text.truncateWithEllipsis(maxLines: 10),
-            maxLines: 10,
+            text.truncateWithEllipsis(maxLines: _maxLinex),
+            maxLines: _maxLinex,
             overflow: TextOverflow.ellipsis,
           ),
         ),
