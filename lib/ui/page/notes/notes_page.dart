@@ -76,10 +76,12 @@ class _NotesPageState extends State<NotesPage> {
                 },
               ),
               floatingActionButton: ExtendableFab(
-                isExtended: pageHelper.isSmallScreen,
+                isExtended: !pageHelper.isSmallScreen,
                 onPressed: () => widget.usePageReplacement
                     ? context.replace('/${widget.code}/new')
                     : context.push('/${widget.code}/new'),
+                icon: const Icon(Icons.add),
+                label: const Text('New note'),
               ),
               floatingActionButtonLocation: pageHelper.fabLocation,
             );

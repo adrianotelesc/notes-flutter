@@ -2,25 +2,29 @@ import 'package:flutter/material.dart';
 
 class ExtendableFab extends StatelessWidget {
   final bool isExtended;
+  final Widget label;
+  final Widget icon;
   final Function() onPressed;
 
   const ExtendableFab({
     super.key,
     this.isExtended = false,
+    required this.icon,
+    required this.label,
     required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return isExtended
-        ? FloatingActionButton(
+        ? FloatingActionButton.extended(
             onPressed: onPressed,
-            child: const Icon(Icons.add),
+            label: label,
+            icon: icon,
           )
-        : FloatingActionButton.extended(
+        : FloatingActionButton(
             onPressed: onPressed,
-            label: const Text('New note'),
-            icon: const Icon(Icons.add),
+            child: icon,
           );
   }
 }
