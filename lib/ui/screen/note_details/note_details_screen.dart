@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:postnote/ui/page/note_details/note_details_cubit.dart';
-import 'package:postnote/ui/page/note_details/note_details_state.dart';
+import 'package:postnote/ui/screen/note_details/note_details_cubit.dart';
+import 'package:postnote/ui/screen/note_details/note_details_state.dart';
 
-class NoteDetailsPage extends StatefulWidget {
+class NoteDetailsScreen extends StatefulWidget {
   final String? noteId;
   final String code;
   final bool automaticallyImplyLeading;
 
-  const NoteDetailsPage({
+  const NoteDetailsScreen({
     super.key,
     this.code = '',
     this.noteId,
@@ -18,10 +18,10 @@ class NoteDetailsPage extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _NoteDetailsPageState();
+  State<StatefulWidget> createState() => _NoteDetailsScreenState();
 }
 
-class _NoteDetailsPageState extends State<NoteDetailsPage> {
+class _NoteDetailsScreenState extends State<NoteDetailsScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
 

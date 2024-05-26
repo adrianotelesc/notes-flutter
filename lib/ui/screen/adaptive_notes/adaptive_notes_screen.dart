@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:postnote/ui/page/note_details/note_details_page.dart';
-import 'package:postnote/ui/page/notes/notes_page.dart';
+import 'package:postnote/ui/screen/note_details/note_details_screen.dart';
+import 'package:postnote/ui/screen/notes/notes_screen.dart';
 import 'package:postnote/ui/widget/horizontal_split.dart';
 
-class AdaptiveNotesPage extends StatelessWidget {
-  const AdaptiveNotesPage({
+class AdaptiveNotesScreen extends StatelessWidget {
+  const AdaptiveNotesScreen({
     super.key,
     required this.code,
     this.noteId,
@@ -20,18 +20,18 @@ class AdaptiveNotesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return largeScreenWidthThreshold <= MediaQuery.of(context).size.width
         ? HorizontalSplit(
-            left: NotesPage(
+            left: NotesScreen(
               code: code,
               usePageReplacement: true,
             ),
-            right: NoteDetailsPage(
+            right: NoteDetailsScreen(
               code: code,
               noteId: noteId,
             ),
           )
         : noteId == null
-            ? NotesPage(code: code)
-            : NoteDetailsPage(
+            ? NotesScreen(code: code)
+            : NoteDetailsScreen(
                 code: code,
                 noteId: noteId,
                 automaticallyImplyLeading: true,

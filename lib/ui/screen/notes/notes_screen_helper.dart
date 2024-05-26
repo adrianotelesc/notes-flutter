@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class NotesPageHelper {
+class NotesScreenHelper {
   final MediaQueryData mediaQueryData;
   final BoxConstraints constraints;
 
@@ -11,7 +11,7 @@ class NotesPageHelper {
   static const int _minimumColumnCount = 2;
   static const double _columnWidth = 200.0;
 
-  const NotesPageHelper({
+  const NotesScreenHelper({
     required this.mediaQueryData,
     required this.constraints,
   });

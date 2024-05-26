@@ -5,14 +5,14 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:postnote/ui/page/notes/notes_cubit.dart';
-import 'package:postnote/ui/page/notes/notes_page_helper.dart';
-import 'package:postnote/ui/page/notes/notes_state.dart';
+import 'package:postnote/ui/screen/notes/notes_cubit.dart';
+import 'package:postnote/ui/screen/notes/notes_screen_helper.dart';
+import 'package:postnote/ui/screen/notes/notes_state.dart';
 import 'package:postnote/ui/widget/extendable_fab.dart';
 import 'package:postnote/ui/widget/sticky_note.dart';
 
-class NotesPage extends StatefulWidget {
-  const NotesPage({
+class NotesScreen extends StatefulWidget {
+  const NotesScreen({
     super.key,
     required this.code,
     this.usePageReplacement = false,
@@ -22,10 +22,10 @@ class NotesPage extends StatefulWidget {
   final bool usePageReplacement;
 
   @override
-  State<StatefulWidget> createState() => _NotesPageState();
+  State<StatefulWidget> createState() => _NotesScreenState();
 }
 
-class _NotesPageState extends State<NotesPage> {
+class _NotesScreenState extends State<NotesScreen> {
   final _cubit = GetIt.I<NotesCubit>();
 
   @override
@@ -44,7 +44,7 @@ class _NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final pageHelper = NotesPageHelper(
+        final pageHelper = NotesScreenHelper(
           mediaQueryData: MediaQuery.of(context),
           constraints: constraints,
         );

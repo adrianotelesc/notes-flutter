@@ -5,16 +5,16 @@ import 'package:material_symbols/material_symbols.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-enum ShortcutMenuItem { copyCode, remove }
+import 'package:postnote/ui/screen/home/shortcut_menu_item.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   final _rootScrollController = ScrollController();
 
   final _codeTextController = TextEditingController();
