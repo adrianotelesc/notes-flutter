@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:postnote/ui/page/notes/notes_cubit.dart';
 import 'package:postnote/ui/page/notes/notes_page_helper.dart';
@@ -81,7 +82,7 @@ class _NotesPageState extends State<NotesPage> {
                     ? context.replace('/${widget.code}/new')
                     : context.push('/${widget.code}/new'),
                 icon: const Icon(Icons.add),
-                label: const Text('New note'),
+                label: Text(AppLocalizations.of(context)!.newNote),
               ),
               floatingActionButtonLocation: pageHelper.fabLocation,
             );

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols/material_symbols.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum ShortcutMenuItem { copyCode, remove }
 
@@ -47,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               const SizedBox.square(dimension: 4),
                               Text(
-                                'Take notes from anywhere, and effortlessly share with everyone.',
+                                AppLocalizations.of(context)!.slogan,
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
@@ -75,7 +76,8 @@ class _HomePageState extends State<HomePage> {
                                   end: 4,
                                 ),
                                 child: IconButton(
-                                  tooltip: 'Generate a code',
+                                  tooltip: AppLocalizations.of(context)!
+                                      .generateCode,
                                   onPressed: () {
                                     _codeTextController.text =
                                         const Uuid().v1().toString();
@@ -83,10 +85,10 @@ class _HomePageState extends State<HomePage> {
                                   icon: const Icon(MaterialSymbols.refresh),
                                 ),
                               ),
-                              hintText: 'Enter a code',
+                              hintText: AppLocalizations.of(context)!.enterCode,
                               helper: Center(
                                 child: Text(
-                                  'Feel free to enter anything to access your notes.',
+                                  AppLocalizations.of(context)!.codeHelp,
                                   textAlign: TextAlign.center,
                                   style:
                                       Theme.of(context).textTheme.labelMedium,
@@ -109,7 +111,9 @@ class _HomePageState extends State<HomePage> {
                                 if (_codeTextController.text.isEmpty) return;
                                 context.push('/${_codeTextController.text}');
                               },
-                              label: const Text('Go to notes'),
+                              label: Text(
+                                AppLocalizations.of(context)!.goToNotes,
+                              ),
                               icon: const Icon(MaterialSymbols.note_stack),
                             ),
                           ),
@@ -129,16 +133,20 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   trailing: PopupMenuButton<ShortcutMenuItem>(
                                     onSelected: (ShortcutMenuItem item) {},
-                                    tooltip: 'More',
+                                    tooltip: AppLocalizations.of(context)!.more,
                                     itemBuilder: (BuildContext context) {
                                       return [
                                         PopupMenuItem<ShortcutMenuItem>(
                                           value: ShortcutMenuItem.copyCode,
-                                          child: const Row(
+                                          child: Row(
                                             children: [
-                                              Icon(Icons.copy),
-                                              SizedBox.square(dimension: 8),
-                                              Text('Copy code')
+                                              const Icon(Icons.copy),
+                                              const SizedBox.square(
+                                                  dimension: 8),
+                                              Text(
+                                                AppLocalizations.of(context)!
+                                                    .copyCode,
+                                              )
                                             ],
                                           ),
                                           onTap: () {
@@ -147,20 +155,28 @@ class _HomePageState extends State<HomePage> {
                                                 .then((_) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text("Code copied."),
+                                                SnackBar(
+                                                  content: Text(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .codeCopied,
+                                                  ),
                                                 ),
                                               );
                                             });
                                           },
                                         ),
-                                        const PopupMenuItem<ShortcutMenuItem>(
+                                        PopupMenuItem<ShortcutMenuItem>(
                                           value: ShortcutMenuItem.remove,
                                           child: Row(
                                             children: [
-                                              Icon(Icons.delete),
-                                              SizedBox.square(dimension: 8),
-                                              Text('Remove')
+                                              const Icon(Icons.delete),
+                                              const SizedBox.square(
+                                                  dimension: 8),
+                                              Text(
+                                                AppLocalizations.of(context)!
+                                                    .remove,
+                                              )
                                             ],
                                           ),
                                         ),
@@ -185,7 +201,9 @@ class _HomePageState extends State<HomePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextButton(
-                              child: const Text('Terms and Privacy'),
+                              child: Text(
+                                AppLocalizations.of(context)!.termsAndPrivacy,
+                              ),
                               onPressed: () {},
                             ),
                             const SizedBox.square(dimension: 8),
