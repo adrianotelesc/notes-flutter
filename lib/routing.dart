@@ -4,9 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:postnote/ui/screen/adaptive_notes/adaptive_notes_screen.dart';
 import 'package:postnote/ui/screen/home/home_screen.dart';
 
-class PostnoteRouting {
-  PostnoteRouting._();
-
+abstract class PostnoteRouting {
   static RouterConfig<Object> routerConfig(
     GlobalKey<NavigatorState> navigatorKey,
   ) {

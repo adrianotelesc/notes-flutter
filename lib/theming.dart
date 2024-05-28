@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PostnoteTheming {
-  PostnoteTheming._();
-
+abstract class PostnoteTheming {
   static const _useMaterial = true;
 
   static const PopupMenuThemeData _popupMenuTheme = PopupMenuThemeData(
