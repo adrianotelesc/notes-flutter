@@ -7,7 +7,7 @@ import 'package:postnote/ui/screen/home/home_screen.dart';
 class PostnoteRouting {
   PostnoteRouting._();
 
-  static RouterConfig<Object>? routerConfig(
+  static RouterConfig<Object> routerConfig(
     GlobalKey<NavigatorState> navigatorKey,
   ) {
     return GoRouter(
