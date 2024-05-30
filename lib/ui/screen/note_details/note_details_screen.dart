@@ -8,13 +8,11 @@ import 'package:postnote/ui/screen/note_details/note_details_state.dart';
 class NoteDetailsScreen extends StatefulWidget {
   final String? noteId;
   final String code;
-  final bool automaticallyImplyLeading;
 
   const NoteDetailsScreen({
     super.key,
     this.code = '',
     this.noteId,
-    this.automaticallyImplyLeading = false,
   });
 
   @override
@@ -46,67 +44,56 @@ class _NoteDetailsScreenState extends State<NoteDetailsScreen> {
     return BlocBuilder<NoteDetailsCubit, NoteDetailsState>(
       bloc: _cubit,
       builder: (context, state) {
-        return widget.noteId != null
-            ? Scaffold(
-                appBar: AppBar(
-                  automaticallyImplyLeading: widget.automaticallyImplyLeading,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return ConstrainedBox(
+              constraints: constraints.minHeight == 0
+                  ? const BoxConstraints.expand()
+                  : constraints,
+              child: RawScrollbar(
+                shape: const StadiumBorder(),
+                controller: _scrollController,
+                padding: EdgeInsets.symmetric(
+                  vertical: constraints.minHeight == 0 ? 0 : 32,
+                  horizontal: 4,
                 ),
-                body: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return ConstrainedBox(
-                      constraints: constraints.minHeight == 0
-                          ? const BoxConstraints.expand()
-                          : constraints,
-                      child: RawScrollbar(
-                        shape: const StadiumBorder(),
-                        controller: _scrollController,
-                        padding: EdgeInsets.symmetric(
-                          vertical: constraints.minHeight == 0 ? 0 : 32,
-                          horizontal: 4,
-                        ),
-                        child: ScrollConfiguration(
-                          behavior: ScrollConfiguration.of(context)
-                              .copyWith(scrollbars: false),
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              final textStyle =
-                                  Theme.of(context).textTheme.bodyLarge;
-                              final height = textStyle?.height ?? 0;
-                              final fontSize = textStyle?.fontSize ?? 0;
-                              final lineHeight = fontSize * height;
-                              final minLines =
-                                  constraints.minHeight ~/ lineHeight;
+                child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final textStyle = Theme.of(context).textTheme.bodyLarge;
+                      final height = textStyle?.height ?? 0;
+                      final fontSize = textStyle?.fontSize ?? 0;
+                      final lineHeight = fontSize * height;
+                      final minLines = constraints.minHeight ~/ lineHeight;
 
-                              return SingleChildScrollView(
-                                controller: _scrollController,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(24),
-                                  child: TextField(
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      contentPadding:
-                                          EdgeInsets.symmetric(vertical: 4),
-                                    ),
-                                    style: textStyle,
-                                    minLines: minLines > 0 ? minLines : null,
-                                    controller: _textEditingController,
-                                    maxLines: null,
-                                    autofocus: state.note.text.isEmpty,
-                                    onChanged: (text) =>
-                                        _cubit.updateNote(text),
-                                    keyboardType: TextInputType.multiline,
-                                  ),
-                                ),
-                              );
-                            },
+                      return SingleChildScrollView(
+                        controller: _scrollController,
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: TextField(
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(vertical: 4),
+                            ),
+                            style: textStyle,
+                            minLines: minLines > 0 ? minLines : null,
+                            controller: _textEditingController,
+                            maxLines: null,
+                            autofocus: state.note.text.isEmpty,
+                            onChanged: (text) => _cubit.updateNote(text),
+                            keyboardType: TextInputType.multiline,
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              )
-            : Container(color: Theme.of(context).scaffoldBackgroundColor);
+              ),
+            );
+          },
+        );
       },
     );
   }

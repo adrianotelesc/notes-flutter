@@ -43,10 +43,4 @@ class NotesScreenHelper {
       bottom: 120,
     );
   }
-
-  FloatingActionButtonLocation get fabLocation {
-    return isSmallScreen
-        ? FloatingActionButtonLocation.endFloat
-        : FloatingActionButtonLocation.startTop;
-  }
 }
