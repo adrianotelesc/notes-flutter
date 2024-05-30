@@ -7,20 +7,14 @@ import 'package:postnote/ui/screens/note_list_detail_screen.dart';
 import 'package:postnote/ui/views/note_list/note_list_view.dart';
 
 abstract class PostnoteRouting {
-  static RouterConfig<Object> routerConfig(
-    GlobalKey<NavigatorState> rootNavigatorKey,
-    GlobalKey<NavigatorState> shellNavigatorKey,
-  ) {
+  static RouterConfig<Object> get routerConfig {
     return GoRouter(
-      navigatorKey: rootNavigatorKey,
       routes: [
         GoRoute(
           path: '/',
           builder: (context, state) => HomeScreen(key: state.pageKey),
           routes: [
             ShellRoute(
-              parentNavigatorKey: rootNavigatorKey,
-              navigatorKey: shellNavigatorKey,
               builder: (context, state, child) {
                 final code = state.pathParameters['code'] ?? '';
                 final noteId = state.pathParameters['id'];
@@ -35,7 +29,6 @@ abstract class PostnoteRouting {
               },
               routes: [
                 GoRoute(
-                  parentNavigatorKey: shellNavigatorKey,
                   path: ':code',
                   builder: (context, state) {
                     return Container(
@@ -51,7 +44,6 @@ abstract class PostnoteRouting {
                   },
                 ),
                 GoRoute(
-                  parentNavigatorKey: shellNavigatorKey,
                   path: ':code/:id',
                   builder: (context, state) {
                     final code = state.pathParameters['code'] ?? '';

@@ -5,10 +5,7 @@ import 'package:postnote/ui/theming.dart';
 import 'package:postnote/ui/routing.dart';
 
 class PostnoteApp extends StatelessWidget {
-  PostnoteApp({super.key});
-
-  final _rootNavigatorKey = GlobalKey<NavigatorState>();
-  final _shellNavigatorKey = GlobalKey<NavigatorState>();
+  const PostnoteApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +16,7 @@ class PostnoteApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: PostnoteTheming.light,
       darkTheme: PostnoteTheming.dark,
-      routerConfig: PostnoteRouting.routerConfig(
-        _rootNavigatorKey,
-        _shellNavigatorKey,
-      ),
+      routerConfig: PostnoteRouting.routerConfig,
     );
   }
 }
