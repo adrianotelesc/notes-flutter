@@ -25,7 +25,7 @@ class NoteListDetailScreen extends StatefulWidget {
 }
 
 class _NoteListDetailScreenState extends State<NoteListDetailScreen> {
-  static const double _tallToolbarHeight = 88.0;
+  static const double _tallToolbarHeight = 88;
 
   String? _noteId;
 

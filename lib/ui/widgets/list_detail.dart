@@ -20,18 +20,17 @@ class ListDetail extends StatefulWidget {
   State<ListDetail> createState() => _ListDetailState();
 }
 
-class _ListDetailState extends State<ListDetail>
-    with SingleTickerProviderStateMixin {
-  static const _dividerWidth = 8.0;
-  static const _dividerDefaultThickness = 0.0;
-  static const _dividerHoverThickness = 3.0;
+class _ListDetailState extends State<ListDetail> {
+  static const double _dividerWidth = 8;
+  static const double _dividerDefaultThickness = 0;
+  static const double _dividerHoverThickness = 3;
 
-  var _dividerPosition = 0.0;
-  var _maxWidth = 0.0;
-  var _isDividerHovered = false;
+  double _dividerPosition = 0;
+  double _maxWidth = 0;
+  bool _isDividerHovered = false;
 
-  get _leftWidth => _dividerPosition;
-  get _rightWidth => _maxWidth - _leftWidth;
+  get _listWidth => _dividerPosition;
+  get _detailWidth => _maxWidth - _listWidth;
 
   @override
   void initState() {
@@ -60,8 +59,8 @@ class _ListDetailState extends State<ListDetail>
             children: [
               Row(
                 children: [
-                  SizedBox(width: _leftWidth, child: widget.list),
-                  SizedBox(width: _rightWidth, child: widget.detail),
+                  SizedBox(width: _listWidth, child: widget.list),
+                  SizedBox(width: _detailWidth, child: widget.detail),
                 ],
               ),
               Positioned(
