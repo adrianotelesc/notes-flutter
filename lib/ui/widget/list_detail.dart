@@ -41,75 +41,72 @@ class _ListDetailState extends State<ListDetail>
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (_maxWidth != constraints.maxWidth) {
-            _maxWidth = constraints.maxWidth;
-          }
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (_maxWidth != constraints.maxWidth) {
+          _maxWidth = constraints.maxWidth;
+        }
 
-          final pageHelper = NotesScreenHelper(
-            mediaQueryData: MediaQuery.of(context),
-            constraints: constraints,
-          );
+        final pageHelper = NotesScreenHelper(
+          mediaQueryData: MediaQuery.of(context),
+          constraints: constraints,
+        );
 
-          if (pageHelper.isSmallScreen) {
-            _dividerPosition = widget.showDetail ? 0 : _maxWidth;
-          } else {
-            _dividerPosition = 290;
-          }
+        if (pageHelper.isSmallScreen) {
+          _dividerPosition = widget.showDetail ? 0 : _maxWidth;
+        } else {
+          _dividerPosition = 290;
+        }
 
-          return SizedBox(
-            width: constraints.maxWidth,
-            child: Stack(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(width: _leftWidth, child: widget.list),
-                    SizedBox(width: _rightWidth, child: widget.detail),
-                  ],
-                ),
-                Positioned(
-                  height: constraints.maxHeight,
-                  left: _dividerPosition - _dividerWidth / 2,
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.resizeColumn,
-                    onHover: (event) {
+        return SizedBox(
+          width: constraints.maxWidth,
+          child: Stack(
+            children: [
+              Row(
+                children: [
+                  SizedBox(width: _leftWidth, child: widget.list),
+                  SizedBox(width: _rightWidth, child: widget.detail),
+                ],
+              ),
+              Positioned(
+                height: constraints.maxHeight,
+                left: _dividerPosition - _dividerWidth / 2,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.resizeColumn,
+                  onHover: (event) {
+                    setState(() {
+                      _isDividerHovered = true;
+                    });
+                  },
+                  onExit: (event) {
+                    setState(() {
+                      _isDividerHovered = false;
+                    });
+                  },
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    child: VerticalDivider(
+                      width: _dividerWidth,
+                      thickness: _isDividerHovered
+                          ? _dividerHoverThickness
+                          : _dividerDefaultThickness,
+                      color: _isDividerHovered
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).dividerColor,
+                    ),
+                    onPanUpdate: (DragUpdateDetails details) {
                       setState(() {
                         _isDividerHovered = true;
+                        _dividerPosition += details.delta.dx;
                       });
                     },
-                    onExit: (event) {
-                      setState(() {
-                        _isDividerHovered = false;
-                      });
-                    },
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      child: VerticalDivider(
-                        width: _dividerWidth,
-                        thickness: _isDividerHovered
-                            ? _dividerHoverThickness
-                            : _dividerDefaultThickness,
-                        color: _isDividerHovered
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).dividerColor,
-                      ),
-                      onPanUpdate: (DragUpdateDetails details) {
-                        setState(() {
-                          _isDividerHovered = true;
-                          _dividerPosition += details.delta.dx;
-                        });
-                      },
-                    ),
                   ),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
