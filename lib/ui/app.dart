@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:postnote/theming.dart';
-import 'package:postnote/routing.dart';
+import 'package:postnote/ui/theming.dart';
+import 'package:postnote/ui/routing.dart';
 
 class PostnoteApp extends StatelessWidget {
   PostnoteApp({super.key});
