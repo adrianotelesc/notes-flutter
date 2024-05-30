@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:postnote/ui/util/string_extension.dart';
+import 'package:postnote/ui/utils/string_extension.dart';
 
-class StickyNote extends StatelessWidget {
+class NoteWidget extends StatelessWidget {
   static const _maxLinex = 10;
 
   final String id;
   final String text;
   final Function(String)? onTap;
 
-  const StickyNote({
+  const NoteWidget({
     super.key,
     required this.id,
     required this.text,

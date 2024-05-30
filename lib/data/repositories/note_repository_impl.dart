@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:postnote/data/model/note.dart';
-import 'package:postnote/data/repository/note_repository.dart';
+import 'package:postnote/data/models/note.dart';
+import 'package:postnote/data/repositories/note_repository.dart';
 
 class NoteRepositoryImpl extends NoteRepository {
   final Map<String, List<Note>> _notes = {};

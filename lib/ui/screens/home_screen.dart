@@ -5,8 +5,6 @@ import 'package:material_symbols/material_symbols.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:postnote/ui/screen/home/shortcut_menu_item.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -131,13 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     left: 24,
                                     right: 8,
                                   ),
-                                  trailing: PopupMenuButton<ShortcutMenuItem>(
-                                    onSelected: (ShortcutMenuItem item) {},
+                                  trailing: PopupMenuButton(
                                     tooltip: AppLocalizations.of(context)!.more,
                                     itemBuilder: (BuildContext context) {
                                       return [
-                                        PopupMenuItem<ShortcutMenuItem>(
-                                          value: ShortcutMenuItem.copyCode,
+                                        PopupMenuItem(
                                           child: Row(
                                             children: [
                                               const Icon(Icons.copy),
@@ -166,8 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             });
                                           },
                                         ),
-                                        PopupMenuItem<ShortcutMenuItem>(
-                                          value: ShortcutMenuItem.remove,
+                                        PopupMenuItem(
                                           child: Row(
                                             children: [
                                               const Icon(Icons.delete),

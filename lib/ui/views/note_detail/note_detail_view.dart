@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:postnote/ui/screen/note_details/note_details_cubit.dart';
-import 'package:postnote/ui/screen/note_details/note_details_state.dart';
+import 'package:postnote/ui/views/note_detail/note_detail_cubit.dart';
+import 'package:postnote/ui/views/note_detail/note_detail_state.dart';
 
-class NoteDetailsScreen extends StatefulWidget {
+class NoteDetailView extends StatefulWidget {
   final String? noteId;
   final String code;
 
-  const NoteDetailsScreen({
+  const NoteDetailView({
     super.key,
     this.code = '',
     this.noteId,
   });
 
   @override
-  State<StatefulWidget> createState() => _NoteDetailsScreenState();
+  State<StatefulWidget> createState() => _NoteDetailViewState();
 }
 
-class _NoteDetailsScreenState extends State<NoteDetailsScreen> {
+class _NoteDetailViewState extends State<NoteDetailView> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
 

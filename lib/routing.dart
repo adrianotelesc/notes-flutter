@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:postnote/ui/screen/home/home_screen.dart';
-import 'package:postnote/ui/screen/note_details/note_details_screen.dart';
-import 'package:postnote/ui/screen/note_list_detail_scaffold.dart';
-import 'package:postnote/ui/screen/notes/notes_screen.dart';
+import 'package:postnote/ui/screens/home_screen.dart';
+import 'package:postnote/ui/views/note_detail/note_detail_view.dart';
+import 'package:postnote/ui/screens/note_list_detail_screen.dart';
+import 'package:postnote/ui/views/note_list/note_list_view.dart';
 
 abstract class PostnoteRouting {
   static RouterConfig<Object> routerConfig(
@@ -25,11 +25,11 @@ abstract class PostnoteRouting {
                 final code = state.pathParameters['code'] ?? '';
                 final noteId = state.pathParameters['id'];
 
-                return NoteListDetailScaffold(
+                return NoteListDetailScreen(
                   key: state.pageKey,
                   code: code,
                   noteId: noteId,
-                  list: NotesScreen(code: code),
+                  list: NoteListView(code: code),
                   detail: child,
                 );
               },
@@ -54,10 +54,13 @@ abstract class PostnoteRouting {
                   parentNavigatorKey: shellNavigatorKey,
                   path: ':code/:id',
                   builder: (context, state) {
-                    return NoteDetailsScreen(
+                    final code = state.pathParameters['code'] ?? '';
+                    final noteId = state.pathParameters['id'];
+
+                    return NoteDetailView(
                       key: UniqueKey(),
-                      code: state.pathParameters['code'] ?? '',
-                      noteId: state.pathParameters['id'],
+                      code: code,
+                      noteId: noteId,
                     );
                   },
                 ),

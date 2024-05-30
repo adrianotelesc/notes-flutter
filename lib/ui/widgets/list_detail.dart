@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:postnote/ui/screen/notes/notes_screen_helper.dart';
+import 'package:postnote/ui/utils/screen_helper.dart';
 
 class ListDetail extends StatefulWidget {
   final double dividerPosition;
@@ -47,12 +47,8 @@ class _ListDetailState extends State<ListDetail>
           _maxWidth = constraints.maxWidth;
         }
 
-        final pageHelper = NotesScreenHelper(
-          mediaQueryData: MediaQuery.of(context),
-          constraints: constraints,
-        );
-
-        if (pageHelper.isSmallScreen) {
+        final isSmallScreen = ScreenUtils.isSmallScreen(MediaQuery.of(context));
+        if (isSmallScreen) {
           _dividerPosition = widget.showDetail ? 0 : _maxWidth;
         } else {
           _dividerPosition = 290;

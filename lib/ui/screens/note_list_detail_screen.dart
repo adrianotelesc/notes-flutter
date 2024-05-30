@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:postnote/ui/screen/notes/notes_screen_helper.dart';
-import 'package:postnote/ui/widget/list_detail.dart';
-import 'package:postnote/ui/widget/extendable_fab.dart';
+import 'package:postnote/ui/utils/screen_helper.dart';
+import 'package:postnote/ui/widgets/list_detail.dart';
+import 'package:postnote/ui/widgets/extendable_fab.dart';
 
-class NoteListDetailScaffold extends StatefulWidget {
+class NoteListDetailScreen extends StatefulWidget {
   final String code;
   final String? noteId;
   final Widget list;
   final Widget detail;
 
-  const NoteListDetailScaffold({
+  const NoteListDetailScreen({
     super.key,
     required this.code,
     this.noteId,
@@ -21,10 +21,10 @@ class NoteListDetailScaffold extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _NoteListDetailScaffoldState();
+  State<StatefulWidget> createState() => _NoteListDetailScreenState();
 }
 
-class _NoteListDetailScaffoldState extends State<NoteListDetailScaffold> {
+class _NoteListDetailScreenState extends State<NoteListDetailScreen> {
   static const double _tallToolbarHeight = 88.0;
 
   String? _noteId;
@@ -32,7 +32,7 @@ class _NoteListDetailScaffoldState extends State<NoteListDetailScaffold> {
   get _showDetail => _noteId != null;
 
   @override
-  void didUpdateWidget(covariant NoteListDetailScaffold oldWidget) {
+  void didUpdateWidget(covariant NoteListDetailScreen oldWidget) {
     _noteId = widget.noteId;
     super.didUpdateWidget(oldWidget);
   }
@@ -41,17 +41,14 @@ class _NoteListDetailScaffoldState extends State<NoteListDetailScaffold> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final pageHelper = NotesScreenHelper(
-          mediaQueryData: MediaQuery.of(context),
-          constraints: constraints,
-        );
+        final isSmallScreen = ScreenUtils.isSmallScreen(MediaQuery.of(context));
 
         return Scaffold(
           appBar: PreferredSize(
-            preferredSize: pageHelper.isSmallScreen
+            preferredSize: isSmallScreen
                 ? const Size.fromHeight(kToolbarHeight)
                 : const Size.fromHeight(_tallToolbarHeight),
-            child: pageHelper.isSmallScreen && _showDetail
+            child: isSmallScreen && _showDetail
                 ? AppBar(
                     leading: BackButton(
                       onPressed: () {
@@ -76,9 +73,9 @@ class _NoteListDetailScaffoldState extends State<NoteListDetailScaffold> {
             list: widget.list,
             detail: widget.detail,
           ),
-          floatingActionButton: !pageHelper.isSmallScreen || !_showDetail
+          floatingActionButton: !isSmallScreen || !_showDetail
               ? ExtendableFab(
-                  isExtended: !pageHelper.isSmallScreen,
+                  isExtended: !isSmallScreen,
                   onPressed: () {
                     context.replace('/${widget.code}/new');
                   },
@@ -86,7 +83,7 @@ class _NoteListDetailScaffoldState extends State<NoteListDetailScaffold> {
                   label: Text(AppLocalizations.of(context)!.newNote),
                 )
               : null,
-          floatingActionButtonLocation: pageHelper.isSmallScreen
+          floatingActionButtonLocation: isSmallScreen
               ? FloatingActionButtonLocation.endFloat
               : FloatingActionButtonLocation.startTop,
         );

@@ -1,29 +1,32 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:postnote/ui/screen/notes/notes_cubit.dart';
-import 'package:postnote/ui/screen/notes/notes_screen_helper.dart';
-import 'package:postnote/ui/screen/notes/notes_state.dart';
-import 'package:postnote/ui/widget/sticky_note.dart';
+import 'package:postnote/ui/views/note_list/note_list_cubit.dart';
+import 'package:postnote/ui/utils/screen_helper.dart';
+import 'package:postnote/ui/views/note_list/note_list_state.dart';
+import 'package:postnote/ui/widgets/note_widget.dart';
 
-class NotesScreen extends StatefulWidget {
-  const NotesScreen({
+class NoteListView extends StatefulWidget {
+  const NoteListView({
     super.key,
     required this.code,
-    this.usePageDetailReplacement = false,
   });
 
   final String code;
-  final bool usePageDetailReplacement;
 
   @override
-  State<StatefulWidget> createState() => _NotesScreenState();
+  State<StatefulWidget> createState() => _NoteListViewState();
 }
 
-class _NotesScreenState extends State<NotesScreen> {
+class _NoteListViewState extends State<NoteListView> {
+  static const int _minimumColumnCount = 2;
+  static const double _columnWidth = 200;
+
   final _cubit = GetIt.I<NotesCubit>();
 
   @override
@@ -42,23 +45,30 @@ class _NotesScreenState extends State<NotesScreen> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final pageHelper = NotesScreenHelper(
-          mediaQueryData: MediaQuery.of(context),
-          constraints: constraints,
-        );
+        final isSmallScreen = ScreenUtils.isSmallScreen(MediaQuery.of(context));
+        final contentWidth = constraints.maxWidth;
+        final columnCount = constraints.maxWidth <= _columnWidth
+            ? 1
+            : max(_minimumColumnCount, contentWidth ~/ _columnWidth);
+
         return BlocBuilder<NotesCubit, NotesState>(
           bloc: _cubit,
           builder: (context, state) {
             return MasonryGridView.builder(
               gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: pageHelper.columnCount,
+                crossAxisCount: columnCount,
               ),
-              padding: pageHelper.contentPadding,
+              padding: EdgeInsets.only(
+                left: 16,
+                top: isSmallScreen ? 16 : 48,
+                right: 16,
+                bottom: 120,
+              ),
               itemCount: state.notes.length,
               itemBuilder: (context, index) {
                 final note = state.notes[index];
 
-                return StickyNote(
+                return NoteWidget(
                   id: note.id,
                   text: note.text,
                   onTap: (noteId) {

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:postnote/data/repository/note_repository.dart';
-import 'package:postnote/ui/screen/notes/notes_state.dart';
+import 'package:postnote/data/repositories/note_repository.dart';
+import 'package:postnote/ui/views/note_list/note_list_state.dart';
 
 class NotesCubit extends Cubit<NotesState> {
   final NoteRepository _noteRepo;

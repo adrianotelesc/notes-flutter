@@ -1,1 +1,0 @@
-enum ShortcutMenuItem { copyCode, remove }
