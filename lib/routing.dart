@@ -41,6 +41,12 @@ abstract class PostnoteRouting {
                     return Container(
                       key: state.pageKey,
                       color: Theme.of(context).scaffoldBackgroundColor,
+                      child: Center(
+                        child: Text(
+                          'Crie ou abra uma nota',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
                     );
                   },
                 ),
