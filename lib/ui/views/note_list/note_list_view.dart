@@ -7,17 +7,17 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:postnote/ui/views/note_list/note_list_cubit.dart';
-import 'package:postnote/ui/utils/screen_helper.dart';
+import 'package:postnote/ui/utils/screen_utils.dart';
 import 'package:postnote/ui/views/note_list/note_list_state.dart';
 import 'package:postnote/ui/widgets/note_widget.dart';
 
 class NoteListView extends StatefulWidget {
   const NoteListView({
     super.key,
-    required this.code,
+    required this.collectionId,
   });
 
-  final String code;
+  final String collectionId;
 
   @override
   State<StatefulWidget> createState() => _NoteListViewState();
@@ -32,7 +32,7 @@ class _NoteListViewState extends State<NoteListView> {
   @override
   void initState() {
     super.initState();
-    _cubit.initState(widget.code);
+    _cubit.initState(widget.collectionId);
   }
 
   @override
@@ -45,7 +45,7 @@ class _NoteListViewState extends State<NoteListView> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isSmallScreen = ScreenUtils.isSmallScreen(MediaQuery.of(context));
+        final isSmallScreen = ScreenUtils.isSmallScreen(context);
         final contentWidth = constraints.maxWidth;
         final columnCount = constraints.maxWidth <= _columnWidth
             ? 1
@@ -69,10 +69,9 @@ class _NoteListViewState extends State<NoteListView> {
                 final note = state.notes[index];
 
                 return NoteWidget(
-                  id: note.id,
                   text: note.text,
-                  onTap: (noteId) {
-                    context.replace('/${widget.code}/$noteId');
+                  onTap: () {
+                    context.replace('/${widget.collectionId}/${note.id}}');
                   },
                 );
               },

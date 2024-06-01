@@ -9,20 +9,20 @@ class NoteDetailsCubit extends Cubit<NoteDetailsState> {
 
   NoteDetailsCubit(this._noteRepo) : super(NoteDetailsState(note: Note()));
 
-  void initState({required String code, String? noteId}) {
-    _findNote(code: code, noteId: noteId);
+  void initState({required String collectionId, String? noteId}) {
+    _findNote(collectionId: collectionId, noteId: noteId);
   }
 
-  void _findNote({required String code, required String? noteId}) {
+  void _findNote({required String collectionId, required String? noteId}) {
     if (noteId == null) return;
-    final note = _noteRepo.findById(code, noteId);
-    emit(state.copyWith(code: code, note: note));
+    final note = _noteRepo.findById(collectionId, noteId);
+    emit(state.copyWith(collectionId: collectionId, note: note));
   }
 
   void updateNote(String text) {
     final note = state.note.copyWith(text: text);
-    final code = state.code;
-    _noteRepo.update(code, note);
+    final collectionId = state.collectionId;
+    _noteRepo.update(collectionId, note);
     emit(state.copyWith(note: note));
   }
 }

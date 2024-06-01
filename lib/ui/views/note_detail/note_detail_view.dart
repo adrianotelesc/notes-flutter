@@ -7,11 +7,11 @@ import 'package:postnote/ui/views/note_detail/note_detail_state.dart';
 
 class NoteDetailView extends StatefulWidget {
   final String? noteId;
-  final String code;
+  final String collectionId;
 
   const NoteDetailView({
     super.key,
-    this.code = '',
+    this.collectionId = '',
     this.noteId,
   });
 
@@ -28,7 +28,7 @@ class _NoteDetailViewState extends State<NoteDetailView> {
   @override
   void initState() {
     super.initState();
-    _cubit.initState(code: widget.code, noteId: widget.noteId);
+    _cubit.initState(collectionId: widget.collectionId, noteId: widget.noteId);
     _textEditingController.text = _cubit.state.note.text;
   }
 

@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _rootScrollController = ScrollController();
 
-  final _codeTextController = TextEditingController();
+  final _collectionIdTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox.square(dimension: 40),
                           TextField(
                             textInputAction: TextInputAction.done,
-                            onSubmitted: (code) {
-                              if (code.isEmpty) return;
-                              context.push('/$code');
+                            onSubmitted: (collectionId) {
+                              if (collectionId.isEmpty) return;
+                              context.push('/$collectionId');
                             },
                             decoration: InputDecoration(
                               filled: true,
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   tooltip: AppLocalizations.of(context)!
                                       .generateCode,
                                   onPressed: () {
-                                    _codeTextController.text =
+                                    _collectionIdTextController.text =
                                         const Uuid().v1().toString();
                                   },
                                   icon: const Icon(MaterialSymbols.refresh),
@@ -100,14 +100,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             ).applyDefaults(
                               Theme.of(context).inputDecorationTheme,
                             ),
-                            controller: _codeTextController,
+                            controller: _collectionIdTextController,
                           ),
                           const SizedBox.square(dimension: 32),
                           Center(
                             child: FilledButton.icon(
                               onPressed: () {
-                                if (_codeTextController.text.isEmpty) return;
-                                context.push('/${_codeTextController.text}');
+                                if (_collectionIdTextController.text.isEmpty)
+                                  return;
+                                context.push(
+                                    '/${_collectionIdTextController.text}');
                               },
                               label: Text(
                                 AppLocalizations.of(context)!.goToNotes,
@@ -119,10 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           ...List.generate(
                             3,
                             (index) {
-                              final secret = const Uuid().v1().toString();
+                              final collectionId = const Uuid().v1().toString();
                               return Card(
                                 child: ListTile(
-                                  onTap: () => context.push('/$secret'),
+                                  onTap: () => context.push('/$collectionId'),
                                   title: const Text('Minhas anotações'),
                                   subtitle: Text(const Uuid().v1().toString()),
                                   contentPadding: const EdgeInsets.only(
@@ -146,8 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ],
                                           ),
                                           onTap: () {
-                                            Clipboard.setData(
-                                                    ClipboardData(text: secret))
+                                            Clipboard.setData(ClipboardData(
+                                                    text: collectionId))
                                                 .then((_) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(

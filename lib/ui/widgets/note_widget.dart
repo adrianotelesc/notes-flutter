@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:postnote/ui/utils/string_extension.dart';
 
 class NoteWidget extends StatelessWidget {
-  static const _maxLinex = 10;
+  static const _defaultMaxLines = 10;
 
-  final String id;
   final String text;
-  final Function(String)? onTap;
+  final Function()? onTap;
 
   const NoteWidget({
     super.key,
-    required this.id,
     required this.text,
     this.onTap,
   });
@@ -22,12 +20,12 @@ class NoteWidget extends StatelessWidget {
       color: Theme.of(context).colorScheme.surfaceContainerHighest,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: onTap != null ? () => onTap?.call(id) : null,
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            text.truncateWithEllipsis(maxLines: _maxLinex),
-            maxLines: _maxLinex,
+            text.truncateWithEllipsis(maxLines: _defaultMaxLines),
+            maxLines: _defaultMaxLines,
             overflow: TextOverflow.ellipsis,
           ),
         ),

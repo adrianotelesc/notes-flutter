@@ -1,17 +1,17 @@
 import 'package:postnote/data/models/note.dart';
 
 class NotesState {
+  final String collectionId;
   final List<Note> notes;
-  final String code;
 
   const NotesState({
-    this.code = '',
+    this.collectionId = '',
     this.notes = const [],
   });
 
-  NotesState copyWith({String? code, List<Note>? notes}) {
+  NotesState copyWith({String? collectionId, List<Note>? notes}) {
     return NotesState(
-      code: code ?? this.code,
+      collectionId: collectionId ?? this.collectionId,
       notes: notes ?? this.notes,
     );
   }

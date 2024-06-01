@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:postnote/ui/utils/screen_helper.dart';
+import 'package:postnote/ui/utils/screen_utils.dart';
 import 'package:postnote/ui/widgets/list_detail.dart';
 import 'package:postnote/ui/widgets/extendable_fab.dart';
 
 class NoteListDetailScreen extends StatefulWidget {
-  final String code;
+  final String collectionId;
   final String? noteId;
   final Widget list;
   final Widget detail;
 
   const NoteListDetailScreen({
     super.key,
-    required this.code,
+    required this.collectionId,
     this.noteId,
     required this.list,
     required this.detail,
@@ -41,7 +41,7 @@ class _NoteListDetailScreenState extends State<NoteListDetailScreen> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isSmallScreen = ScreenUtils.isSmallScreen(MediaQuery.of(context));
+        final isSmallScreen = ScreenUtils.isSmallScreen(context);
 
         return Scaffold(
           appBar: PreferredSize(
@@ -59,7 +59,7 @@ class _NoteListDetailScreenState extends State<NoteListDetailScreen> {
                     ),
                   )
                 : AppBar(
-                    title: Text(widget.code),
+                    title: Text(widget.collectionId),
                     centerTitle: false,
                     leading: BackButton(
                       onPressed: () {
@@ -77,7 +77,7 @@ class _NoteListDetailScreenState extends State<NoteListDetailScreen> {
               ? ExtendableFab(
                   isExtended: !isSmallScreen,
                   onPressed: () {
-                    context.replace('/${widget.code}/new');
+                    context.replace('/${widget.collectionId}/new');
                   },
                   icon: const Icon(Icons.add),
                   label: Text(AppLocalizations.of(context)!.newNote),

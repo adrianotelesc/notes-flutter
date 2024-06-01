@@ -16,20 +16,20 @@ abstract class PostnoteRouting {
           routes: [
             ShellRoute(
               builder: (context, state, child) {
-                final code = state.pathParameters['code'] ?? '';
-                final noteId = state.pathParameters['id'];
+                final collectionId = state.pathParameters['collectionId'] ?? '';
+                final noteId = state.pathParameters['noteId'];
 
                 return NoteListDetailScreen(
                   key: state.pageKey,
-                  code: code,
+                  collectionId: collectionId,
                   noteId: noteId,
-                  list: NoteListView(code: code),
+                  list: NoteListView(collectionId: collectionId),
                   detail: child,
                 );
               },
               routes: [
                 GoRoute(
-                  path: ':code',
+                  path: ':collectionId',
                   builder: (context, state) {
                     return Container(
                       key: state.pageKey,
@@ -44,14 +44,15 @@ abstract class PostnoteRouting {
                   },
                 ),
                 GoRoute(
-                  path: ':code/:id',
+                  path: ':collectionId/:noteId',
                   builder: (context, state) {
-                    final code = state.pathParameters['code'] ?? '';
-                    final noteId = state.pathParameters['id'];
+                    final collectionId =
+                        state.pathParameters['collectionId'] ?? '';
+                    final noteId = state.pathParameters['noteId'];
 
                     return NoteDetailView(
                       key: UniqueKey(),
-                      code: code,
+                      collectionId: collectionId,
                       noteId: noteId,
                     );
                   },

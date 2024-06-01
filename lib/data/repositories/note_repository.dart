@@ -1,17 +1,17 @@
 import 'package:postnote/data/models/note.dart';
 
 abstract class NoteRepository {
-  Stream<List<Note>> getNotesStream(String code);
+  Stream<List<Note>> getNotesStream(String collectionId);
 
   void onListen();
 
-  Note? findById(String code, String id);
+  Note? findById(String collectionId, String id);
 
-  void update(String code, Note note);
+  void update(String collectionId, Note note);
 
-  void add(String code, Note note, {int index = 0});
+  void add(String collectionId, Note note, {int index = 0});
 
-  void remove(String code, Note note);
+  void remove(String collectionId, Note note);
 
-  void replace(String code, Note oldNote, Note newNote);
+  void replace(String collectionId, Note oldNote, Note newNote);
 }
