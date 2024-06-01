@@ -71,7 +71,7 @@ class _NoteListViewState extends State<NoteListView> {
                 return NoteWidget(
                   text: note.text,
                   onTap: () {
-                    context.replace('/${widget.collectionId}/${note.id}}');
+                    context.replace('/${widget.collectionId}/${note.id}');
                   },
                 );
               },
