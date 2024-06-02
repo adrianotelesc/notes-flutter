@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:postnote/ui/utils/screen_utils.dart';
 
 class ListDetail extends StatefulWidget {
-  final double dividerPosition;
+  final double initialDividerPosition;
   final Widget list;
   final Widget detail;
   final bool showDetail;
 
   const ListDetail({
     super.key,
-    this.dividerPosition = 290,
+    this.initialDividerPosition = 290,
     required this.list,
     required this.detail,
     this.showDetail = false,
@@ -35,7 +35,7 @@ class _ListDetailState extends State<ListDetail> {
   @override
   void initState() {
     super.initState();
-    _dividerPosition = widget.dividerPosition;
+    _dividerPosition = widget.initialDividerPosition;
   }
 
   @override
@@ -46,58 +46,60 @@ class _ListDetailState extends State<ListDetail> {
           _maxWidth = constraints.maxWidth;
         }
 
-        final isSmallScreen = ScreenUtils.isSmallScreen(context);
-        if (isSmallScreen) {
-          _dividerPosition = widget.showDetail ? 0 : _maxWidth;
-        } else {
-          _dividerPosition = 290;
-        }
-
         return SizedBox(
           width: constraints.maxWidth,
           child: Stack(
             children: [
-              Row(
-                children: [
-                  SizedBox(width: _listWidth, child: widget.list),
-                  SizedBox(width: _detailWidth, child: widget.detail),
-                ],
-              ),
-              Positioned(
-                height: constraints.maxHeight,
-                left: _dividerPosition - _dividerWidth / 2,
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.resizeColumn,
-                  onHover: (event) {
-                    setState(() {
-                      _isDividerHovered = true;
-                    });
-                  },
-                  onExit: (event) {
-                    setState(() {
-                      _isDividerHovered = false;
-                    });
-                  },
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    child: VerticalDivider(
-                      width: _dividerWidth,
-                      thickness: _isDividerHovered
-                          ? _dividerHoverThickness
-                          : _dividerDefaultThickness,
-                      color: _isDividerHovered
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).dividerColor,
-                    ),
-                    onPanUpdate: (DragUpdateDetails details) {
+              if (ScreenUtils.isSmallScreen(context)) ...[
+                widget.list,
+                if (widget.showDetail)
+                  Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: widget.detail,
+                  ),
+              ] else ...[
+                Row(
+                  children: [
+                    SizedBox(width: _listWidth, child: widget.list),
+                    SizedBox(width: _detailWidth, child: widget.detail),
+                  ],
+                ),
+                Positioned(
+                  height: constraints.maxHeight,
+                  left: _dividerPosition - _dividerWidth / 2,
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.resizeColumn,
+                    onHover: (event) {
                       setState(() {
                         _isDividerHovered = true;
-                        _dividerPosition += details.delta.dx;
                       });
                     },
+                    onExit: (event) {
+                      setState(() {
+                        _isDividerHovered = false;
+                      });
+                    },
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      child: VerticalDivider(
+                        width: _dividerWidth,
+                        thickness: _isDividerHovered
+                            ? _dividerHoverThickness
+                            : _dividerDefaultThickness,
+                        color: _isDividerHovered
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).dividerColor,
+                      ),
+                      onPanUpdate: (DragUpdateDetails details) {
+                        setState(() {
+                          _isDividerHovered = true;
+                          _dividerPosition += details.delta.dx;
+                        });
+                      },
+                    ),
                   ),
                 ),
-              ),
+              ],
             ],
           ),
         );
