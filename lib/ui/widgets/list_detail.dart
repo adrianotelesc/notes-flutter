@@ -20,7 +20,8 @@ class ListDetail extends StatefulWidget {
   State<ListDetail> createState() => _ListDetailState();
 }
 
-class _ListDetailState extends State<ListDetail> {
+class _ListDetailState extends State<ListDetail>
+    with SingleTickerProviderStateMixin {
   static const double _dividerWidth = 8;
   static const double _dividerDefaultThickness = 0;
   static const double _dividerHoverThickness = 3;
@@ -32,10 +33,30 @@ class _ListDetailState extends State<ListDetail> {
   get _listWidth => _dividerPosition;
   get _detailWidth => _maxWidth - _listWidth;
 
+  late final AnimationController _animationController = AnimationController(
+    duration: const Duration(milliseconds: 200),
+    reverseDuration: const Duration(milliseconds: 200),
+    vsync: this,
+  );
+  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+    begin: const Offset(1.5, 0.0),
+    end: Offset.zero,
+  ).animate(_animationController);
+
   @override
   void initState() {
     super.initState();
     _dividerPosition = widget.initialDividerPosition;
+  }
+
+  @override
+  void didUpdateWidget(covariant ListDetail oldWidget) {
+    if (widget.showDetail) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -52,16 +73,24 @@ class _ListDetailState extends State<ListDetail> {
             children: [
               if (ScreenUtils.isSmallScreen(context)) ...[
                 widget.list,
-                if (widget.showDetail)
-                  Container(
+                SlideTransition(
+                  position: _offsetAnimation,
+                  child: Container(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     child: widget.detail,
                   ),
+                ),
               ] else ...[
                 Row(
                   children: [
-                    SizedBox(width: _listWidth, child: widget.list),
-                    SizedBox(width: _detailWidth, child: widget.detail),
+                    SizedBox(
+                      width: _listWidth,
+                      child: widget.list,
+                    ),
+                    SizedBox(
+                      width: _detailWidth,
+                      child: widget.detail,
+                    ),
                   ],
                 ),
                 Positioned(
