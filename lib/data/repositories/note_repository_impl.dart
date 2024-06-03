@@ -43,7 +43,7 @@ class NoteRepositoryImpl extends NoteRepository {
 
   @override
   void remove(String collectionId, Note note) {
-    _notes.remove(note);
+    _notes[collectionId]?.remove(note);
     _notesStreamController.add(_notes);
   }
 
