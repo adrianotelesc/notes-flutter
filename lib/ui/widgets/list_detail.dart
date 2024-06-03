@@ -33,9 +33,10 @@ class _ListDetailState extends State<ListDetail>
   get _listWidth => _dividerPosition;
   get _detailWidth => _maxWidth - _listWidth;
 
+  final _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController = AnimationController(
-    duration: const Duration(milliseconds: 200),
-    reverseDuration: const Duration(milliseconds: 200),
+    duration: _animationDuration,
+    reverseDuration: _animationDuration,
     vsync: this,
   );
   late final Animation<Offset> _offsetAnimation = Tween<Offset>(
