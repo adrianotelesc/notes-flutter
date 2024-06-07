@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:postnote/data/models/note.dart';
 import 'package:postnote/data/repositories/note_repository.dart';
-import 'package:postnote/ui/screens/note_detail/note_detail_state.dart';
+import 'package:postnote/ui/pages/note_detail/note_detail_state.dart';
 
 class NoteDetailCubit extends Cubit<NoteDetailState> {
   final String boardId;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:postnote/ui/screens/home_page.dart';
-import 'package:postnote/ui/screens/note_detail/note_detail_page.dart';
-import 'package:postnote/ui/screens/note_list/note_list_page.dart';
+import 'package:postnote/ui/pages/home_page.dart';
+import 'package:postnote/ui/pages/note_detail/note_detail_page.dart';
+import 'package:postnote/ui/pages/note_list/note_list_page.dart';
 
 abstract class PostnoteRouting {
   static RouterConfig<Object> get routerConfig {

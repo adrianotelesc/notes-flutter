@@ -9,9 +9,9 @@ import 'package:go_router/go_router.dart';
 import 'package:material_symbols/material_symbols.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:postnote/ui/screens/note_list/note_list_cubit.dart';
+import 'package:postnote/ui/pages/note_list/note_list_cubit.dart';
 import 'package:postnote/ui/utils/screen_utils.dart';
-import 'package:postnote/ui/screens/note_list/note_list_state.dart';
+import 'package:postnote/ui/pages/note_list/note_list_state.dart';
 import 'package:postnote/ui/widgets/extendable_fab.dart';
 import 'package:postnote/ui/widgets/note_widget.dart';
 

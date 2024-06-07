@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols/material_symbols.dart';
 
-import 'package:postnote/ui/screens/note_detail/note_detail_cubit.dart';
+import 'package:postnote/ui/pages/note_detail/note_detail_cubit.dart';
 import 'package:postnote/ui/utils/screen_utils.dart';
 
 class NoteDetailPage extends Page<void> {
