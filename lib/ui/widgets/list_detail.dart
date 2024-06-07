@@ -10,7 +10,7 @@ class ListDetail extends StatefulWidget {
 
   const ListDetail({
     super.key,
-    this.initialDividerPosition = 290,
+    this.initialDividerPosition = 360,
     required this.list,
     required this.detail,
     this.showDetail = false,
@@ -73,7 +73,10 @@ class _ListDetailState extends State<ListDetail>
           child: Stack(
             children: [
               if (ScreenUtils.isSmallScreen(context)) ...[
-                widget.list,
+                Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: widget.list,
+                ),
                 SlideTransition(
                   position: _offsetAnimation,
                   child: Container(
@@ -84,11 +87,13 @@ class _ListDetailState extends State<ListDetail>
               ] else ...[
                 Row(
                   children: [
-                    SizedBox(
+                    Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       width: _listWidth,
                       child: widget.list,
                     ),
-                    SizedBox(
+                    Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       width: _detailWidth,
                       child: widget.detail,
                     ),
@@ -118,7 +123,9 @@ class _ListDetailState extends State<ListDetail>
                             : _dividerDefaultThickness,
                         color: _isDividerHovered
                             ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).dividerColor,
+                            : Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest,
                       ),
                       onPanUpdate: (DragUpdateDetails details) {
                         setState(() {

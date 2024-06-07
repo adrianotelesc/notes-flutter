@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:postnote/ui/screens/home_screen.dart';
-import 'package:postnote/ui/views/note_detail/note_detail_view.dart';
+import 'package:postnote/ui/screens/note_detail/note_detail_screen.dart';
 import 'package:postnote/ui/screens/note_list_detail_screen.dart';
-import 'package:postnote/ui/views/note_list/note_list_view.dart';
+import 'package:postnote/ui/screens/note_list/note_list_screen.dart';
 
 abstract class PostnoteRouting {
   static RouterConfig<Object> get routerConfig {
@@ -23,7 +23,7 @@ abstract class PostnoteRouting {
                   key: state.pageKey,
                   collectionId: collectionId,
                   noteId: noteId,
-                  list: NoteListView(collectionId: collectionId),
+                  list: NoteListScreen(collectionId: collectionId),
                   detail: child,
                 );
               },
@@ -50,7 +50,7 @@ abstract class PostnoteRouting {
                         state.pathParameters['collectionId'] ?? '';
                     final noteId = state.pathParameters['noteId'];
 
-                    return NoteDetailView(
+                    return NoteDetailScreen(
                       key: UniqueKey(),
                       collectionId: collectionId,
                       noteId: noteId,

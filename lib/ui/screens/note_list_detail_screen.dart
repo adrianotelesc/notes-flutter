@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:postnote/ui/utils/screen_utils.dart';
 import 'package:postnote/ui/widgets/list_detail.dart';
-import 'package:postnote/ui/widgets/extendable_fab.dart';
 
 class NoteListDetailScreen extends StatefulWidget {
   final String collectionId;
@@ -25,8 +21,6 @@ class NoteListDetailScreen extends StatefulWidget {
 }
 
 class _NoteListDetailScreenState extends State<NoteListDetailScreen> {
-  static const double _tallToolbarHeight = 88;
-
   String? _noteId;
 
   get _showDetail => _noteId != null;
@@ -39,55 +33,10 @@ class _NoteListDetailScreenState extends State<NoteListDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isSmallScreen = ScreenUtils.isSmallScreen(context);
-
-        return Scaffold(
-          appBar: PreferredSize(
-            preferredSize: isSmallScreen
-                ? const Size.fromHeight(kToolbarHeight)
-                : const Size.fromHeight(_tallToolbarHeight),
-            child: isSmallScreen && _showDetail
-                ? AppBar(
-                    leading: BackButton(
-                      onPressed: () {
-                        setState(() {
-                          _noteId = null;
-                        });
-                      },
-                    ),
-                  )
-                : AppBar(
-                    title: Text(widget.collectionId),
-                    centerTitle: false,
-                    leading: BackButton(
-                      onPressed: () {
-                        context.go('/');
-                      },
-                    ),
-                  ),
-          ),
-          body: ListDetail(
-            showDetail: _showDetail,
-            list: widget.list,
-            detail: widget.detail,
-          ),
-          floatingActionButton: !isSmallScreen || !_showDetail
-              ? ExtendableFab(
-                  isExtended: !isSmallScreen,
-                  onPressed: () {
-                    context.replace('/${widget.collectionId}/new');
-                  },
-                  icon: const Icon(Icons.add),
-                  label: Text(AppLocalizations.of(context)!.newNote),
-                )
-              : null,
-          floatingActionButtonLocation: isSmallScreen
-              ? FloatingActionButtonLocation.endFloat
-              : FloatingActionButtonLocation.startTop,
-        );
-      },
+    return ListDetail(
+      showDetail: _showDetail,
+      list: widget.list,
+      detail: widget.detail,
     );
   }
 }

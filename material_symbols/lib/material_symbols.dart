@@ -19,4 +19,10 @@ class MaterialSymbols {
 
   static const IconData keyboard =
       IconData(0xe312, fontFamily: _fontFamily, fontPackage: _fontPackage);
+
+  static const IconData note_stack_add =
+      IconData(0xf563, fontFamily: _fontFamily, fontPackage: _fontPackage);
+
+  static const IconData content_copy =
+      IconData(0xe14d, fontFamily: _fontFamily, fontPackage: _fontPackage);
 }
