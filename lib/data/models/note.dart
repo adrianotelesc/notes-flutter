@@ -20,9 +20,4 @@ class Note {
       text: text ?? this.text,
     );
   }
-
-  @override
-  bool operator ==(Object other) {
-    return other is Note && id == other.id && text == other.text;
-  }
 }

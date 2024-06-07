@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:postnote/ui/utils/screen_utils.dart';
 import 'package:postnote/ui/screens/note_detail/note_detail_cubit.dart';
 
 class NoteDetailScreen extends StatefulWidget {
   final String? noteId;
-  final String collectionId;
+  final String boardId;
 
   const NoteDetailScreen({
     super.key,
-    this.collectionId = '',
+    this.boardId = '',
     this.noteId,
   });
 
@@ -23,7 +22,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
   final _scrollController = ScrollController();
   final _textEditingController = TextEditingController();
 
-  late final _cubit = GetIt.I<NoteDetailCubit>(param1: widget.collectionId);
+  late final _cubit = GetIt.I<NoteDetailCubit>(param1: widget.boardId);
 
   @override
   void initState() {
@@ -34,8 +33,6 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isSmallScreen = ScreenUtils.isSmallScreen(context);
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       appBar: AppBar(

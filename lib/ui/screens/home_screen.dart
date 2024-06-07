@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _rootScrollController = ScrollController();
 
-  final _collectionIdTextController = TextEditingController();
+  final _boardIdTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   tooltip: AppLocalizations.of(context)!
                                       .generateCode,
                                   onPressed: () {
-                                    _collectionIdTextController.text =
+                                    _boardIdTextController.text =
                                         const Uuid().v1().toString();
                                   },
                                   icon: const Icon(MaterialSymbols.refresh),
@@ -100,16 +100,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             ).applyDefaults(
                               Theme.of(context).inputDecorationTheme,
                             ),
-                            controller: _collectionIdTextController,
+                            controller: _boardIdTextController,
                           ),
                           const SizedBox.square(dimension: 32),
                           Center(
                             child: FilledButton.icon(
                               onPressed: () {
-                                if (_collectionIdTextController.text.isEmpty)
+                                if (_boardIdTextController.text.isEmpty) {
                                   return;
-                                context.push(
-                                    '/${_collectionIdTextController.text}');
+                                }
+                                context.push('/${_boardIdTextController.text}');
                               },
                               label: Text(
                                 AppLocalizations.of(context)!.goToNotes,

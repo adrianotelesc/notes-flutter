@@ -12,46 +12,46 @@ class NoteRepositoryImpl extends NoteRepository {
   }
 
   @override
-  Stream<List<Note>> getNotesStream(String collectionId) =>
-      _notesStreamController.stream.map((event) => event[collectionId] ?? []);
+  Stream<List<Note>> getNotesStream(String boardId) =>
+      _notesStreamController.stream.map((event) => event[boardId] ?? []);
 
   @override
-  Note? findById(String collectionId, String id) =>
-      _notes[collectionId]?.where((element) => element.id == id).firstOrNull;
+  Note? findById(String boardId, String id) =>
+      _notes[boardId]?.where((element) => element.id == id).firstOrNull;
 
   @override
-  void update(String collectionId, Note note) {
-    final existingNote = findById(collectionId, note.id);
+  void update(String boardId, Note note) {
+    final existingNote = findById(boardId, note.id);
     if (existingNote != null) {
       if (existingNote.isNotEmpty && note.isEmpty) {
-        remove(collectionId, existingNote);
+        remove(boardId, existingNote);
       } else if (existingNote != note) {
-        replace(collectionId, existingNote, note);
+        replace(boardId, existingNote, note);
       }
     } else {
-      add(collectionId, note);
+      add(boardId, note);
     }
   }
 
   @override
-  void add(String collectionId, Note note, {int index = 0}) {
+  void add(String boardId, Note note, {int index = 0}) {
     if (note.isEmpty) return;
-    if (_notes[collectionId] == null) _notes[collectionId] = [];
-    _notes[collectionId]?.insert(index, note);
+    if (_notes[boardId] == null) _notes[boardId] = [];
+    _notes[boardId]?.insert(index, note);
     _notesStreamController.add(_notes);
   }
 
   @override
-  void remove(String collectionId, Note note) {
-    _notes[collectionId]?.remove(note);
+  void remove(String boardId, Note note) {
+    _notes[boardId]?.remove(note);
     _notesStreamController.add(_notes);
   }
 
   @override
-  void replace(String collectionId, Note oldNote, Note newNote) {
-    final index = _notes[collectionId]?.indexOf(oldNote) ?? 0;
-    _notes[collectionId]?.removeAt(index);
-    _notes[collectionId]?.insert(index, newNote);
+  void replace(String boardId, Note oldNote, Note newNote) {
+    final index = _notes[boardId]?.indexOf(oldNote) ?? 0;
+    _notes[boardId]?.removeAt(index);
+    _notes[boardId]?.insert(index, newNote);
     _notesStreamController.add(_notes);
   }
 

@@ -18,10 +18,10 @@ import 'package:postnote/ui/widgets/note_widget.dart';
 class NoteListScreen extends StatefulWidget {
   const NoteListScreen({
     super.key,
-    required this.collectionId,
+    required this.boardId,
   });
 
-  final String collectionId;
+  final String boardId;
 
   @override
   State<StatefulWidget> createState() => _NoteListScreenState();
@@ -31,7 +31,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
   static const int _minimumColumnCount = 2;
   static const double _columnWidth = 200;
 
-  late final _cubit = GetIt.I<NoteListCubit>(param1: widget.collectionId);
+  late final _cubit = GetIt.I<NoteListCubit>(param1: widget.boardId);
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
-                  widget.collectionId,
+                  widget.boardId,
                   style: Theme.of(context).textTheme.labelLarge,
                 )
               ],
@@ -89,8 +89,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                           ],
                         ),
                         onTap: () {
-                          Clipboard.setData(
-                                  ClipboardData(text: widget.collectionId))
+                          Clipboard.setData(ClipboardData(text: widget.boardId))
                               .then((_) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -128,7 +127,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                   return NoteWidget(
                     text: note.text,
                     onTap: () {
-                      context.replace('/${widget.collectionId}/${note.id}');
+                      context.push('/${widget.boardId}/${note.id}');
                     },
                   );
                 },
@@ -138,7 +137,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
           floatingActionButton: ExtendableFab(
             isExtended: !isSmallScreen,
             onPressed: () {
-              context.replace('/${widget.collectionId}/new');
+              context.push('/${widget.boardId}/new');
             },
             icon: const Icon(MaterialSymbols.note_stack_add),
             label: Text(AppLocalizations.of(context)!.newNote),
