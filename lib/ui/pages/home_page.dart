@@ -5,26 +5,14 @@ import 'package:material_symbols/material_symbols.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class HomePage extends Page<void> {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Route<void> createRoute(BuildContext context) {
-    return MaterialPageRoute(
-      settings: this,
-      builder: (context) => const Home(),
-    );
-  }
+  State<HomePage> createState() => _HomePageState();
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
+class _HomePageState extends State<HomePage> {
   final _rootScrollController = ScrollController();
 
   final _boardIdTextController = TextEditingController();

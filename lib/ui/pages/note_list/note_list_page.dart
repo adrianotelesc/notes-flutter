@@ -15,7 +15,7 @@ import 'package:postnote/ui/pages/note_list/note_list_state.dart';
 import 'package:postnote/ui/widgets/extendable_fab.dart';
 import 'package:postnote/ui/widgets/note_widget.dart';
 
-class NoteListPage extends Page<void> {
+class NoteListPage extends StatefulWidget {
   const NoteListPage({
     super.key,
     required this.boardId,
@@ -24,27 +24,10 @@ class NoteListPage extends Page<void> {
   final String boardId;
 
   @override
-  Route createRoute(BuildContext context) {
-    return MaterialPageRoute(
-      settings: this,
-      builder: (_) => NoteList(boardId: boardId),
-    );
-  }
+  State<StatefulWidget> createState() => _NoteListPageState();
 }
 
-class NoteList extends StatefulWidget {
-  const NoteList({
-    super.key,
-    required this.boardId,
-  });
-
-  final String boardId;
-
-  @override
-  State<StatefulWidget> createState() => _NoteListState();
-}
-
-class _NoteListState extends State<NoteList> {
+class _NoteListPageState extends State<NoteListPage> {
   static const int _minimumColumnCount = 2;
   static const double _columnWidth = 200;
 

@@ -4,9 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:material_symbols/material_symbols.dart';
 
 import 'package:postnote/ui/pages/note_detail/note_detail_cubit.dart';
-import 'package:postnote/ui/utils/screen_utils.dart';
 
-class NoteDetailPage extends Page<void> {
+class NoteDetailPage extends StatefulWidget {
   final String? noteId;
   final String boardId;
 
@@ -17,60 +16,10 @@ class NoteDetailPage extends Page<void> {
   });
 
   @override
-  Route createRoute(BuildContext context) {
-    final isSmallScreen = ScreenUtils.isSmallScreen(context);
-
-    return DialogRoute(
-      context: context,
-      settings: this,
-      builder: (context) => isSmallScreen
-          ? Dialog.fullscreen(
-              child: NoteDetail(
-                boardId: boardId,
-                noteId: noteId,
-              ),
-            )
-          : Dialog(
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(16),
-                ),
-              ),
-              insetPadding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: kToolbarHeight,
-              ),
-              child: SizedBox(
-                width: 800,
-                child: NoteDetail(
-                  boardId: boardId,
-                  noteId: noteId,
-                ),
-              ),
-            ),
-      barrierColor: Colors.black54,
-      barrierDismissible: true,
-      useSafeArea: true,
-    );
-  }
+  State<StatefulWidget> createState() => _NoteDetailPageState();
 }
 
-class NoteDetail extends StatefulWidget {
-  final String? noteId;
-  final String boardId;
-
-  const NoteDetail({
-    super.key,
-    this.boardId = '',
-    this.noteId,
-  });
-
-  @override
-  State<StatefulWidget> createState() => _NoteDetailState();
-}
-
-class _NoteDetailState extends State<NoteDetail> {
+class _NoteDetailPageState extends State<NoteDetailPage> {
   final _scrollController = ScrollController();
   final _textEditingController = TextEditingController();
 
