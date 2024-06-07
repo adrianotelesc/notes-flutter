@@ -9,14 +9,14 @@ void setUpDependencies() {
   GetIt.I.registerSingleton<NoteRepository>(NoteRepositoryImpl());
 
   GetIt.I.registerFactoryParam<NoteListCubit, String, void>(
-    (collectionId, _) => NoteListCubit(
-      collectionId,
+    (boardId, _) => NoteListCubit(
+      boardId,
       GetIt.I<NoteRepository>(),
     ),
   );
   GetIt.I.registerFactoryParam<NoteDetailCubit, String, void>(
-    (collectionId, _) => NoteDetailCubit(
-      collectionId,
+    (boardId, _) => NoteDetailCubit(
+      boardId,
       GetIt.I<NoteRepository>(),
     ),
   );

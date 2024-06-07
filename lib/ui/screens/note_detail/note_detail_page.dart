@@ -1,24 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_symbols/material_symbols.dart';
 
 import 'package:postnote/ui/screens/note_detail/note_detail_cubit.dart';
+import 'package:postnote/ui/utils/screen_utils.dart';
 
-class NoteDetailScreen extends StatefulWidget {
+class NoteDetailPage extends Page<void> {
   final String? noteId;
   final String boardId;
 
-  const NoteDetailScreen({
+  const NoteDetailPage({
     super.key,
     this.boardId = '',
     this.noteId,
   });
 
   @override
-  State<StatefulWidget> createState() => _NoteDetailScreenState();
+  Route createRoute(BuildContext context) {
+    final isSmallScreen = ScreenUtils.isSmallScreen(context);
+
+    return DialogRoute(
+      context: context,
+      settings: this,
+      builder: (context) => isSmallScreen
+          ? Dialog.fullscreen(
+              child: NoteDetail(
+                boardId: boardId,
+                noteId: noteId,
+              ),
+            )
+          : Dialog(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(16),
+                ),
+              ),
+              insetPadding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: kToolbarHeight,
+              ),
+              child: SizedBox(
+                width: 800,
+                child: NoteDetail(
+                  boardId: boardId,
+                  noteId: noteId,
+                ),
+              ),
+            ),
+      barrierColor: Colors.black54,
+      barrierDismissible: true,
+      useSafeArea: true,
+    );
+  }
 }
 
-class _NoteDetailScreenState extends State<NoteDetailScreen> {
+class NoteDetail extends StatefulWidget {
+  final String? noteId;
+  final String boardId;
+
+  const NoteDetail({
+    super.key,
+    this.boardId = '',
+    this.noteId,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _NoteDetailState();
+}
+
+class _NoteDetailState extends State<NoteDetail> {
   final _scrollController = ScrollController();
   final _textEditingController = TextEditingController();
 
@@ -37,10 +89,9 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-        leading: BackButton(
-          onPressed: () {
-            context.pop();
-          },
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(MaterialSymbols.close),
         ),
       ),
       body: LayoutBuilder(

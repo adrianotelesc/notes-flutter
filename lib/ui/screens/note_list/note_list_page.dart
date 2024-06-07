@@ -15,8 +15,8 @@ import 'package:postnote/ui/screens/note_list/note_list_state.dart';
 import 'package:postnote/ui/widgets/extendable_fab.dart';
 import 'package:postnote/ui/widgets/note_widget.dart';
 
-class NoteListScreen extends StatefulWidget {
-  const NoteListScreen({
+class NoteListPage extends Page<void> {
+  const NoteListPage({
     super.key,
     required this.boardId,
   });
@@ -24,10 +24,27 @@ class NoteListScreen extends StatefulWidget {
   final String boardId;
 
   @override
-  State<StatefulWidget> createState() => _NoteListScreenState();
+  Route createRoute(BuildContext context) {
+    return MaterialPageRoute(
+      settings: this,
+      builder: (_) => NoteList(boardId: boardId),
+    );
+  }
 }
 
-class _NoteListScreenState extends State<NoteListScreen> {
+class NoteList extends StatefulWidget {
+  const NoteList({
+    super.key,
+    required this.boardId,
+  });
+
+  final String boardId;
+
+  @override
+  State<StatefulWidget> createState() => _NoteListState();
+}
+
+class _NoteListState extends State<NoteList> {
   static const int _minimumColumnCount = 2;
   static const double _columnWidth = 200;
 

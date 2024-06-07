@@ -17,7 +17,7 @@ class NoteRepositoryImpl extends NoteRepository {
 
   @override
   Note? findById(String boardId, String id) =>
-      _notes[boardId]?.where((element) => element.id == id).firstOrNull;
+      _notes[boardId]?.where((note) => note.id == id).firstOrNull;
 
   @override
   void update(String boardId, Note note) {

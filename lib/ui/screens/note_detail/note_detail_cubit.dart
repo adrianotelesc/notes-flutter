@@ -5,11 +5,11 @@ import 'package:postnote/data/repositories/note_repository.dart';
 import 'package:postnote/ui/screens/note_detail/note_detail_state.dart';
 
 class NoteDetailCubit extends Cubit<NoteDetailState> {
-  final String collectionId;
+  final String boardId;
   final NoteRepository _noteRepo;
 
   NoteDetailCubit(
-    this.collectionId,
+    this.boardId,
     this._noteRepo,
   ) : super(NoteDetailState(note: Note()));
 
@@ -19,7 +19,7 @@ class NoteDetailCubit extends Cubit<NoteDetailState> {
 
   void _findNote({required String? noteId}) {
     if (noteId == null) return;
-    final note = _noteRepo.findById(collectionId, noteId);
+    final note = _noteRepo.findById(boardId, noteId);
 
     if (note == null) return;
     emit(state.copyWith(note: note));
@@ -27,7 +27,7 @@ class NoteDetailCubit extends Cubit<NoteDetailState> {
 
   void updateNote(String text) {
     final note = state.note.copyWith(text: text);
-    _noteRepo.update(collectionId, note);
+    _noteRepo.update(boardId, note);
     emit(state.copyWith(note: note));
   }
 }

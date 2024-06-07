@@ -5,14 +5,26 @@ import 'package:material_symbols/material_symbols.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomePage extends Page<void> {
+  const HomePage({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  Route<void> createRoute(BuildContext context) {
+    return MaterialPageRoute(
+      settings: this,
+      builder: (context) => const Home(),
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final _rootScrollController = ScrollController();
 
   final _boardIdTextController = TextEditingController();
@@ -55,9 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox.square(dimension: 40),
                           TextField(
                             textInputAction: TextInputAction.done,
-                            onSubmitted: (collectionId) {
-                              if (collectionId.isEmpty) return;
-                              context.push('/$collectionId');
+                            onSubmitted: (boardId) {
+                              if (boardId.isEmpty) return;
+                              context.push('/$boardId');
                             },
                             decoration: InputDecoration(
                               filled: true,
@@ -121,10 +133,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           ...List.generate(
                             3,
                             (index) {
-                              final collectionId = const Uuid().v1().toString();
+                              final boardId = const Uuid().v1().toString();
                               return Card(
                                 child: ListTile(
-                                  onTap: () => context.push('/$collectionId'),
+                                  onTap: () => context.push('/$boardId'),
                                   title: const Text('Minhas anotações'),
                                   subtitle: Text(const Uuid().v1().toString()),
                                   contentPadding: const EdgeInsets.only(
@@ -149,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           onTap: () {
                                             Clipboard.setData(ClipboardData(
-                                                    text: collectionId))
+                                                    text: boardId))
                                                 .then((_) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
