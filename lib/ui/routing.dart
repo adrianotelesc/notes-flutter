@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,7 +9,7 @@ import 'package:postnote/ui/utils/screen_utils.dart';
 
 abstract class PostnoteRouting {
   static const _transitionDuration = Duration(milliseconds: 150);
-  static const _dialogWidth = 800.0;
+  static const _dialogWidth = 600.0;
   static const _dialogHorizontalInsetPadding = 24.0;
   static const _dialogCornerRadius = 16.0;
 
@@ -65,8 +66,12 @@ abstract class PostnoteRouting {
                                 horizontal: _dialogHorizontalInsetPadding,
                                 vertical: kToolbarHeight,
                               ),
-                              child: SizedBox(
-                                width: _dialogWidth,
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                  maxWidth: _dialogWidth,
+                                  maxHeight: _dialogWidth,
+                                  minHeight: 182,
+                                ),
                                 child: NoteDetailPage(
                                   boardId: boardId,
                                   noteId: noteId,
@@ -75,16 +80,13 @@ abstract class PostnoteRouting {
                             ),
                       transitionDuration: _transitionDuration,
                       reverseTransitionDuration: _transitionDuration,
-                      barrierColor: Colors.black54,
+                      barrierColor: Colors.black87,
                       barrierDismissible: true,
                       opaque: false,
                       transitionsBuilder: (context, animation, _, child) {
-                        return Transform.scale(
-                          scale: animation.value,
-                          child: Opacity(
-                            opacity: animation.value,
-                            child: child,
-                          ),
+                        return FadeScaleTransition(
+                          animation: animation,
+                          child: child,
                         );
                       },
                     );
