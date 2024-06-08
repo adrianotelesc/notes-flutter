@@ -14,10 +14,10 @@ class NoteDetailCubit extends Cubit<NoteDetailState> {
   ) : super(NoteDetailState(note: Note()));
 
   void initState({String? noteId}) {
-    _findNote(noteId: noteId);
+    _findAndEmitNote(noteId: noteId);
   }
 
-  void _findNote({required String? noteId}) {
+  void _findAndEmitNote({required String? noteId}) {
     if (noteId == null) return;
     final note = _noteRepo.findById(boardId, noteId);
 
