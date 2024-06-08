@@ -8,10 +8,12 @@ import 'package:postnote/ui/pages/note_list/note_list_page.dart';
 import 'package:postnote/ui/utils/screen_utils.dart';
 
 abstract class PostnoteRouting {
-  static const _transitionDuration = Duration(milliseconds: 150);
-  static const _dialogWidth = 600.0;
+  static const _dialogMaxSize = 600.0;
+  static const _dialogMinHeight = 182.0;
   static const _dialogHorizontalInsetPadding = 24.0;
   static const _dialogCornerRadius = 16.0;
+
+  static const _transitionDuration = Duration(milliseconds: 150);
 
   static RouterConfig<Object> get routerConfig {
     return GoRouter(
@@ -68,9 +70,9 @@ abstract class PostnoteRouting {
                               ),
                               child: ConstrainedBox(
                                 constraints: const BoxConstraints(
-                                  maxWidth: _dialogWidth,
-                                  maxHeight: _dialogWidth,
-                                  minHeight: 182,
+                                  maxWidth: _dialogMaxSize,
+                                  maxHeight: _dialogMaxSize,
+                                  minHeight: _dialogMinHeight,
                                 ),
                                 child: NoteDetailPage(
                                   boardId: boardId,
