@@ -13,7 +13,7 @@ abstract class PostnoteRouting {
   static const _dialogHorizontalInsetPadding = 24.0;
   static const _dialogCornerRadius = 16.0;
 
-  static const _transitionDuration = Duration(milliseconds: 150);
+  static const _transitionDuration = Duration(milliseconds: 200);
 
   static RouterConfig<Object> get routerConfig {
     return GoRouter(
@@ -41,10 +41,10 @@ abstract class PostnoteRouting {
                 GoRoute(
                   path: ':noteId',
                   pageBuilder: (context, state) {
+                    final isSmallScreen = ScreenUtils.isSmallScreen(context);
+
                     final boardId = state.pathParameters['boardId'] ?? '';
                     final noteId = state.pathParameters['noteId'];
-
-                    final isSmallScreen = ScreenUtils.isSmallScreen(context);
 
                     return CustomTransitionPage<void>(
                       key: state.pageKey,
@@ -82,7 +82,7 @@ abstract class PostnoteRouting {
                             ),
                       transitionDuration: _transitionDuration,
                       reverseTransitionDuration: _transitionDuration,
-                      barrierColor: Colors.black87,
+                      barrierColor: Colors.black54,
                       barrierDismissible: true,
                       opaque: false,
                       transitionsBuilder: (context, animation, _, child) {

@@ -6,13 +6,13 @@ class NoteWidget extends StatelessWidget {
   static const _defaultMaxLines = 10;
 
   final String text;
-  final Function()? onTap;
+  final Function() onTap;
 
-  const NoteWidget({
+  NoteWidget({
     super.key,
     required this.text,
-    this.onTap,
-  });
+    Function()? onTap,
+  }) : onTap = onTap ?? (() {});
 
   @override
   Widget build(BuildContext context) {
