@@ -13,7 +13,6 @@ import 'package:postnote/ui/pages/note_list/note_list_cubit.dart';
 import 'package:postnote/ui/utils/screen_utils.dart';
 import 'package:postnote/ui/pages/note_list/note_list_state.dart';
 import 'package:postnote/ui/widgets/extendable_fab.dart';
-import 'package:postnote/ui/widgets/hide_and_show.dart';
 import 'package:postnote/ui/widgets/note_widget.dart';
 
 class NoteListPage extends StatefulWidget {
@@ -125,18 +124,10 @@ class _NoteListPageState extends State<NoteListPage> {
                 itemBuilder: (context, index) {
                   final note = state.notes[index];
 
-                  return HideAndShow(
-                    hide: (show) async {
-                      await context.push('/${widget.boardId}/${note.id}');
-
-                      show();
-                    },
-                    builder: (hide) {
-                      return NoteWidget(
-                        text: note.text,
-                        onTap: hide,
-                      );
-                    },
+                  return NoteWidget(
+                    text: note.text,
+                    onTap: () async =>
+                        await context.push('/${widget.boardId}/${note.id}'),
                   );
                 },
               );
