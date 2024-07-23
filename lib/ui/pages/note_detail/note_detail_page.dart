@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:material_symbols/material_symbols.dart';
 
 import 'package:postnote/ui/pages/note_detail/note_detail_cubit.dart';
 
@@ -38,7 +39,12 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
             ? const BoxConstraints.expand()
             : constraints,
         child: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(MaterialSymbols.close),
+              onPressed: () => Navigator.maybePop(context),
+            ),
+          ),
           body: RawScrollbar(
             shape: const StadiumBorder(),
             controller: _scrollController,
@@ -60,7 +66,11 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
                   return SingleChildScrollView(
                     controller: _scrollController,
                     child: Padding(
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        bottom: 24,
+                      ),
                       child: TextField(
                         decoration: const InputDecoration(
                           border: InputBorder.none,
