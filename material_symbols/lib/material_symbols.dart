@@ -25,4 +25,7 @@ class MaterialSymbols {
 
   static const IconData content_copy =
       IconData(0xe14d, fontFamily: _fontFamily, fontPackage: _fontPackage);
+
+  static const IconData back =
+      IconData(0xe5c4, fontFamily: _fontFamily, fontPackage: _fontPackage);
 }

@@ -58,6 +58,10 @@ class _NoteListPageState extends State<NoteListPage> {
         return Scaffold(
           appBar: AppBar(
             centerTitle: false,
+            leading: IconButton(
+              icon: const Icon(MaterialSymbols.back),
+              onPressed: () => Navigator.maybePop(context),
+            ),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
