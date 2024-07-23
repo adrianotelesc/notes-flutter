@@ -37,44 +37,47 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
         constraints: constraints.minHeight == 0
             ? const BoxConstraints.expand()
             : constraints,
-        child: RawScrollbar(
-          shape: const StadiumBorder(),
-          controller: _scrollController,
-          padding: EdgeInsets.symmetric(
-            vertical: constraints.minHeight == 0 ? 0 : 32,
-            horizontal: 4,
-          ),
-          child: ScrollConfiguration(
-            behavior:
-                ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final textStyle = Theme.of(context).textTheme.bodyLarge;
-                final height = textStyle?.height ?? 0;
-                final fontSize = textStyle?.fontSize ?? 0;
-                final lineHeight = fontSize * height;
-                final minLines = constraints.minHeight ~/ lineHeight;
+        child: Scaffold(
+          appBar: AppBar(),
+          body: RawScrollbar(
+            shape: const StadiumBorder(),
+            controller: _scrollController,
+            padding: EdgeInsets.symmetric(
+              vertical: constraints.minHeight == 0 ? 0 : 32,
+              horizontal: 4,
+            ),
+            child: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final textStyle = Theme.of(context).textTheme.bodyLarge;
+                  final height = textStyle?.height ?? 0;
+                  final fontSize = textStyle?.fontSize ?? 0;
+                  final lineHeight = fontSize * height;
+                  final minLines = constraints.minHeight ~/ lineHeight;
 
-                return SingleChildScrollView(
-                  controller: _scrollController,
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: TextField(
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(vertical: 4),
+                  return SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: TextField(
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(vertical: 4),
+                        ),
+                        style: textStyle,
+                        minLines: minLines > 0 ? minLines : null,
+                        controller: _textEditingController,
+                        maxLines: null,
+                        autofocus: _textEditingController.text.isEmpty,
+                        onChanged: (text) => _cubit.updateNote(text),
+                        keyboardType: TextInputType.multiline,
                       ),
-                      style: textStyle,
-                      minLines: minLines > 0 ? minLines : null,
-                      controller: _textEditingController,
-                      maxLines: null,
-                      autofocus: _textEditingController.text.isEmpty,
-                      onChanged: (text) => _cubit.updateNote(text),
-                      keyboardType: TextInputType.multiline,
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),
