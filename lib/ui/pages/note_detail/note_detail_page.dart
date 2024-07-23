@@ -24,6 +24,7 @@ class NoteDetailPage extends StatefulWidget {
 class _NoteDetailPageState extends State<NoteDetailPage> {
   final _scrollController = ScrollController();
   final _textEditingController = TextEditingController();
+  final _keyboardFocusNode = FocusNode();
 
   late final _cubit = GetIt.I<NoteDetailCubit>(param1: widget.boardId);
 
@@ -132,19 +133,28 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
                         right: 24,
                         bottom: 24,
                       ),
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Nota',
-                          contentPadding: EdgeInsets.symmetric(vertical: 4),
+                      child: KeyboardListener(
+                        focusNode: _keyboardFocusNode,
+                        onKeyEvent: (event) {
+                          if (event is KeyDownEvent &&
+                              event.logicalKey == LogicalKeyboardKey.escape) {
+                            context.pop();
+                          }
+                        },
+                        child: TextField(
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Nota',
+                            contentPadding: EdgeInsets.symmetric(vertical: 4),
+                          ),
+                          style: textStyle,
+                          minLines: minLines > 0 ? minLines : null,
+                          controller: _textEditingController,
+                          maxLines: null,
+                          autofocus: _textEditingController.text.isEmpty,
+                          onChanged: (text) => _cubit.updateNote(text),
+                          keyboardType: TextInputType.multiline,
                         ),
-                        style: textStyle,
-                        minLines: minLines > 0 ? minLines : null,
-                        controller: _textEditingController,
-                        maxLines: null,
-                        autofocus: _textEditingController.text.isEmpty,
-                        onChanged: (text) => _cubit.updateNote(text),
-                        keyboardType: TextInputType.multiline,
                       ),
                     ),
                   );
