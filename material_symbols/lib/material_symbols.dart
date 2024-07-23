@@ -28,4 +28,7 @@ class MaterialSymbols {
 
   static const IconData back =
       IconData(0xe5c4, fontFamily: _fontFamily, fontPackage: _fontPackage);
+
+  static const IconData delete =
+      IconData(0xe872, fontFamily: _fontFamily, fontPackage: _fontPackage);
 }

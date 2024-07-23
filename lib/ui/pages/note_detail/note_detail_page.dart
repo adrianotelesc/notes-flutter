@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols/material_symbols.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:postnote/ui/pages/note_detail/note_detail_cubit.dart';
 
@@ -44,6 +47,64 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
               icon: const Icon(MaterialSymbols.close),
               onPressed: () => Navigator.maybePop(context),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 2),
+                child: PopupMenuButton(
+                  tooltip: AppLocalizations.of(context)!.more,
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            const Icon(MaterialSymbols.delete),
+                            const SizedBox.square(dimension: 8),
+                            Text(
+                              AppLocalizations.of(context)!.delete,
+                            )
+                          ],
+                        ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                contentPadding: const EdgeInsets.only(
+                                  left: 24,
+                                  top: 24,
+                                  right: 24,
+                                  bottom: 8,
+                                ),
+                                content: Text(
+                                  AppLocalizations.of(context)!
+                                      .confirmNoteDelete,
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => context.pop(),
+                                    child: Text(
+                                        AppLocalizations.of(context)!.cancel),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      context.pop();
+                                      _cubit.deleteNote();
+                                      context.pop();
+                                    },
+                                    child: Text(
+                                        AppLocalizations.of(context)!.delete),
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ];
+                  },
+                ),
+              )
+            ],
           ),
           body: RawScrollbar(
             shape: const StadiumBorder(),

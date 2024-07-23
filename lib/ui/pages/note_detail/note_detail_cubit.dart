@@ -30,4 +30,8 @@ class NoteDetailCubit extends Cubit<NoteDetailState> {
     _noteRepo.update(boardId, note);
     emit(state.copyWith(note: note));
   }
+
+  void deleteNote() {
+    _noteRepo.remove(boardId, state.note);
+  }
 }

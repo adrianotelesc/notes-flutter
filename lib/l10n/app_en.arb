@@ -9,5 +9,8 @@
   "codeCopied": "Code copied.",
   "remove": "Remove",
   "termsAndPrivacy": "Terms and Privacy",
-  "newNote": "New note"
+  "newNote": "New note",
+  "delete": "Delete",
+  "confirmNoteDelete": "Delete the note definitely?",
+  "cancel": "Cancel"
 }

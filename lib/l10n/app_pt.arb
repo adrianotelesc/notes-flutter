@@ -9,5 +9,8 @@
   "codeCopied": "Código copiado.",
   "remove": "Remover",
   "termsAndPrivacy": "Termos e Privacidade",
-  "newNote": "Nova nota"
+  "newNote": "Nova nota",
+  "delete": "Excluir",
+  "confirmNoteDelete": "Excluir a nota definitivamente?",
+  "cancel": "Cancelar"
 }
