@@ -16,6 +16,8 @@ class NoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Card.filled(
       color: Theme.of(context).colorScheme.surfaceContainerHighest,
       clipBehavior: Clip.antiAlias,
@@ -24,9 +26,16 @@ class NoteWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            text.truncateWithEllipsis(maxLines: _defaultMaxLines),
+            text.isEmpty
+                ? 'Nota vazia'
+                : text.truncateWithEllipsis(maxLines: _defaultMaxLines),
             maxLines: _defaultMaxLines,
             overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.bodyMedium!.copyWith(
+              color: text.isEmpty
+                  ? theme.colorScheme.outline
+                  : theme.colorScheme.onSurface,
+            ),
           ),
         ),
       ),

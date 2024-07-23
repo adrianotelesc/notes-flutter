@@ -135,6 +135,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
                       child: TextField(
                         decoration: const InputDecoration(
                           border: InputBorder.none,
+                          hintText: 'Nota',
                           contentPadding: EdgeInsets.symmetric(vertical: 4),
                         ),
                         style: textStyle,

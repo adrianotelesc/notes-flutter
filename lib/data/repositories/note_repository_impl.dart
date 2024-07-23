@@ -22,12 +22,8 @@ class NoteRepositoryImpl extends NoteRepository {
   @override
   void update(String boardId, Note note) {
     final existingNote = findById(boardId, note.id);
-    if (existingNote != null) {
-      if (existingNote.isNotEmpty && note.isEmpty) {
-        remove(boardId, existingNote);
-      } else if (existingNote != note) {
-        replace(boardId, existingNote, note);
-      }
+    if (existingNote != null && existingNote != note) {
+      replace(boardId, existingNote, note);
     } else {
       add(boardId, note);
     }
