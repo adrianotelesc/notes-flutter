@@ -142,10 +142,11 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
                           }
                         },
                         child: TextField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Nota',
-                            contentPadding: EdgeInsets.symmetric(vertical: 4),
+                            hintText: AppLocalizations.of(context)!.note,
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 4),
                           ),
                           style: textStyle,
                           minLines: minLines > 0 ? minLines : null,

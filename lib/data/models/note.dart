@@ -14,7 +14,10 @@ class Note {
     this.text = '',
   }) : id = id ?? const Uuid().v1();
 
-  Note copyWith({String? id, String? text}) {
+  Note copyWith({
+    String? id,
+    String? text,
+  }) {
     return Note(
       id: id ?? this.id,
       text: text ?? this.text,

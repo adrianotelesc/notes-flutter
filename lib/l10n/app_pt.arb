@@ -12,5 +12,7 @@
   "newNote": "Nova nota",
   "delete": "Excluir",
   "confirmNoteDelete": "Excluir a nota definitivamente?",
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "note": "Nota",
+  "emptyNote": "Nota vazia"
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:postnote/ui/utils/string_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NoteWidget extends StatelessWidget {
   static const _defaultMaxLines = 10;
@@ -27,7 +28,7 @@ class NoteWidget extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Text(
             text.isEmpty
-                ? 'Nota vazia'
+                ? AppLocalizations.of(context)!.emptyNote
                 : text.truncateWithEllipsis(maxLines: _defaultMaxLines),
             maxLines: _defaultMaxLines,
             overflow: TextOverflow.ellipsis,

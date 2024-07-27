@@ -12,5 +12,7 @@
   "newNote": "New note",
   "delete": "Delete",
   "confirmNoteDelete": "Delete the note definitely?",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "note": "Note",
+  "emptyNote": "Empty note"
 }
